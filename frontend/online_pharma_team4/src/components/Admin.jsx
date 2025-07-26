@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Admin.css'; 
+import '../styles/Admin.css' 
 
 const Admin = () => {
   const handleLogout = () => {
@@ -99,7 +99,7 @@ const Admin = () => {
     </div>
   </div>
 
-  {/* Profile Section - separate row, centered with medium width */}
+  {/* Profile Section */}
   <div id="profile-section" className="row mt-5">
     <div className="col-md-4 mx-auto">
       <div className="card text-center shadow admin-card border-0">
@@ -115,7 +115,7 @@ const Admin = () => {
     </div>
   </div>
 
-  {/* Logout Section - separate row, narrower and centered */}
+  {/* Logout Section */}
   <div id="logout-section" className="row mt-5">
     <div className="col-md-4 mx-auto">
       <div className="card admin-card border-0 shadow-lg">
@@ -128,8 +128,7 @@ const Admin = () => {
             <button
               type="button"
               className="btn admin-btn-danger rounded-pill"
-              onClick={handleLogout}
-            >
+              onClick={handleLogout}>
               Logout
             </button>
           </div>
