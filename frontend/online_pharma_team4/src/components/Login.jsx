@@ -5,21 +5,21 @@ import '../styles/Login.css';
 
 const Login = () => {
     const [identifier,setIdentifier]=useState("");
-    const[Email,setEmail]=useState("");
+    const[password,setPassword]=useState("");
     // Handle login logic here
     const handleSubmit=(e)=>{
         e.preventDefault();
         // Validate the form before proceeding
         if (!validateForm()) return;
         console.log("Identifier: ",identifier);
-        console.log("Email: ",Email);
+        console.log("Password: ",password);
         // Reset form fields
         setIdentifier("");
-        setEmail("");
+        setPassword("");
     }
     //validate the input fields
     const validateForm = () => {
-        if (!identifier.trim() || !Email.trim()) {
+        if (!identifier.trim() || !password.trim()) {
             alert("Please fill in all fields.");
             return false; //stop form submission
         }
@@ -49,19 +49,19 @@ const Login = () => {
                   </div>
                 </div>
 
-                {/* Email */}
+                {/* password */}
                 <div className="row mb-4 align-items-center">
-                  <label htmlFor="Email" className="col-sm-3 col-form-label">
-                    Email
+                  <label htmlFor="Password" className="col-sm-3 col-form-label">
+                    Password
                   </label>
                   <div className="col-sm-9">
                     <input
-                      type="Email"
+                      type="password"
                       className="form-control"
-                      id="Email"
-                      placeholder="Enter Email"
-                      value={Email}
-                      onChange={(e)=>setEmail(e.target.value)}
+                      id="password"
+                      placeholder="Enter password"
+                      value={password}
+                      onChange={(e)=>setPassword(e.target.value)}
                     />
                   </div>
                 </div>
