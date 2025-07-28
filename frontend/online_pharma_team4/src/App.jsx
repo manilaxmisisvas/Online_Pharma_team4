@@ -1,16 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Admin from './components/Admin.jsx'
+import UserDashboard from "./components/UserDashboard";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Admin from "./components/Admin.jsx";
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <Admin/>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/user" element={<UserDashboard />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
