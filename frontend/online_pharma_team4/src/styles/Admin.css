@@ -17,6 +17,18 @@
 .admin-card:hover {
   box-shadow: 0 8px 24px 0 rgba(60, 72, 90, 0.12), 0 1.5px 9.5px 0 rgba(60, 72, 90, 0.03);
 }
+.admin-cardheader-profile {
+  background: linear-gradient(90deg, #4285F4 70%, #709fe0 100%);
+  color: #fff;
+  font-weight: 500;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.admin-card .btn {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.95rem;
+  min-width: 120px;
+}
 
 .admin-cardheader-users {
   background: linear-gradient(90deg, #39afd4 70%, #6ed3cf 100%);
