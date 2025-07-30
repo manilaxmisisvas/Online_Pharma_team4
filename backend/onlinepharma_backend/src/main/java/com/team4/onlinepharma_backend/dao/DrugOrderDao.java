@@ -11,7 +11,6 @@ import com.team4.onlinepharma_backend.repo.DrugOrderRepository;
 
 @Repository
 public class DrugOrderDao {
-
     @Autowired
     private DrugOrderRepository orderRepo;
 
@@ -30,6 +29,4 @@ public class DrugOrderDao {
     public List<DrugOrder> getOrdersByUserId(Long userId) {
         return orderRepo.findByUserId(userId);
     }
-
 }
-

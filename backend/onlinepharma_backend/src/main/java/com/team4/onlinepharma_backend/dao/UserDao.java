@@ -1,29 +1,41 @@
 package com.team4.onlinepharma_backend.dao;
 
+import com.team4.onlinepharma_backend.model.User;
+import com.team4.onlinepharma_backend.repo.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import com.team4.onlinepharma_backend.model.User;
-import com.team4.onlinepharma_backend.repo.UserRepository;
-
-@Repository
+@Service
 public class UserDao {
 
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository userRepository;
 
-    public User save(User user) {
-        return userRepo.save(user);
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public User saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 
     public Optional<User> findById(Long id) {
-        return userRepo.findById(id);
+        return userRepository.findById(id);
     }
 
-    public List<User> findAll() {
-        return userRepo.findAll();
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }
