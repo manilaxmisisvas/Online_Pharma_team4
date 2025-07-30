@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.team4.onlinepharma_backend.dao.DrugDao;
@@ -20,13 +21,10 @@ import com.team4.onlinepharma_backend.dao.UserDao;
 import com.team4.onlinepharma_backend.model.Drug;
 import com.team4.onlinepharma_backend.model.DrugOrder;
 import com.team4.onlinepharma_backend.model.User;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 @RestController
 @RequestMapping("/api")
-// http://localhost:8080/api
 public class DrugOrderController {
 
     @Autowired
@@ -34,6 +32,7 @@ public class DrugOrderController {
 
     @Autowired
     private DrugDao drugDao;
+
     @Autowired
     private UserDao userDao;
 
@@ -51,24 +50,22 @@ public class DrugOrderController {
             Optional<Drug> found = drugDao.getDrugById(drug.getId());
             if (found.isPresent()) {
                 Drug d = found.get();
-                total += d.getPrice();      // Price calculation
-                fullDrugs.add(d);           // Add full Drug entity to the list
+                total += d.getPrice();
+                fullDrugs.add(d);
             }
         }
 
-        order.setDrugs(fullDrugs);         // Set the list of full drugs in the order
+        order.setDrugs(fullDrugs);
         order.setUser(userOpt.get());
         order.setOrderAmount(total);
 
         return orderDao.saveOrder(order);
     }
 
-
     @GetMapping("/user/{userId}/orders")
     public List<DrugOrder> getOrdersByUserId(@PathVariable Long userId) {
         return orderDao.getOrdersByUserId(userId);
     }
-
 
     @GetMapping("/orders/{orderId}")
     public ResponseEntity<DrugOrder> getOrderById(@PathVariable Long orderId) {
@@ -77,4 +74,3 @@ public class DrugOrderController {
                 .orElse(ResponseEntity.notFound().build());
     }
 }
-

@@ -1,51 +1,71 @@
 package com.team4.onlinepharma_backend.controller;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.team4.onlinepharma_backend.dao.UserDao;
 import com.team4.onlinepharma_backend.model.User;
 
-import org.springframework.web.bind.annotation.RequestMethod;
-
-
-@CrossOrigin(origins = "*",methods = {RequestMethod.POST,RequestMethod.GET,RequestMethod.PUT,RequestMethod.DELETE})
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
 @RestController
-@RequestMapping("/api")
-//http://localhost:8080/api
-
+@RequestMapping("/api/user")
 public class UserController {
-	
-	 @Autowired
-	    private UserDao userDao;
 
-	    @PostMapping("/admin/user")
-	    public User createUser(@RequestBody User user) {
-	        return userDao.save(user);
-	    }
-	    
+    @Autowired
+    private UserDao userDao;
 
-	    @GetMapping("/admin/users")
-	    public List<User> getAllUsers() {
-	        return userDao.findAll();
-	    }
+    @GetMapping("/profile")
+    public ResponseEntity<User> getOwnProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        Optional<User> user = userDao.findByEmail(email);
+        return user.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-	    @GetMapping("/admin/user/{id}")
-	    public ResponseEntity<User> getUser(@PathVariable Long id) {
-	        return userDao.findById(id)
-	                .map(ResponseEntity::ok)
-	                .orElse(ResponseEntity.notFound().build());
-	    }
-	
-	
+    @PutMapping("/update")
+    public ResponseEntity<User> updateOwnProfile(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody User updatedData) {
+        String email = userDetails.getUsername();
+        Optional<User> userOpt = userDao.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setName(updatedData.getName());
+            user.setMobile(updatedData.getMobile());
+            user.setGender(updatedData.getGender());
+            user.setDob(updatedData.getDob());
+            user.setAddress(updatedData.getAddress());
+            if (updatedData.getPassword() != null && !updatedData.getPassword().isEmpty()) {
+                user.setPassword(updatedData.getPassword());
+            }
+            User updatedUser = userDao.saveUser(user);
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteOwnProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        Optional<User> userOpt = userDao.findByEmail(email);
+        if (userOpt.isPresent()) {
+            userDao.deleteUser(userOpt.get().getId());
+            return ResponseEntity.ok("Your account has been deleted.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

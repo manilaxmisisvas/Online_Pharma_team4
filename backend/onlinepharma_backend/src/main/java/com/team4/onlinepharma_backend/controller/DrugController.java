@@ -1,58 +1,70 @@
 package com.team4.onlinepharma_backend.controller;
 
+import com.team4.onlinepharma_backend.dao.DrugDao;
+import com.team4.onlinepharma_backend.model.Drug;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.team4.onlinepharma_backend.dao.DrugDao;
-import com.team4.onlinepharma_backend.model.Drug;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 @RestController
 @RequestMapping("/api")
-//http://localhost:8080/api
-
 public class DrugController {
 
     @Autowired
     private DrugDao drugDao;
 
+    // Public endpoint: Only non-banned drugs - no change here
     @GetMapping("/drugs")
-    public List<Drug> getAllDrugs() {
+    public List<Drug> getAllAvailableDrugs() {
+        return drugDao.getAllAvailableDrugs();
+    }
+
+    // Admin endpoint: Get all drugs (including banned)
+    @GetMapping("/admin/drug-items/all")  // changed from /admin/drugs/all
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Drug> getAllDrugsForAdmin() {
         return drugDao.getAllDrugs();
     }
-    
+
     @GetMapping("/drugs/{id}")
     public Optional<Drug> getDrugById(@PathVariable Long id) {
         return drugDao.getDrugById(id);
     }
 
-    @PostMapping("/admin/drugs")
+    // Admin endpoint: Add a new drug
+    @PostMapping("/admin/drug-items")  // changed from /admin/drugs
+    @PreAuthorize("hasRole('ADMIN')")
     public Drug addDrug(@RequestBody Drug drug) {
         return drugDao.saveDrug(drug);
     }
-    
-    @DeleteMapping("/admin/drugs/{id}")
-    public void deleteDrug(@PathVariable Long id) {
-        drugDao.deleteDrug(id);
-    }
-    
-    @PutMapping("/admin/drugs/{id}")
-    public Drug updateDrug(@PathVariable Long id, @RequestBody Drug updatedDrug) {
-        return drugDao.updateDrug(id, updatedDrug);
+
+    // Admin endpoint: Ban/unban a drug
+    @PutMapping("/admin/drug-items/{id}/ban")  // changed from /admin/drugs/{id}/ban
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> banUnbanDrug(@PathVariable Long id, @RequestParam boolean banned) {
+        Optional<Drug> drugOpt = drugDao.getDrugById(id);
+        if (drugOpt.isPresent()) {
+            Drug drug = drugOpt.get();
+            drug.setBanned(banned);
+            drugDao.saveDrug(drug);
+            return ResponseEntity.ok("Drug banned status updated.");
+        }
+        return ResponseEntity.notFound().build();
     }
 
-   
+    // Admin endpoint: Update drug details (including banned status)
+    @PutMapping("/admin/drug-items/{id}")  // changed from /admin/drugs/{id}
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> updateDrug(@PathVariable Long id, @RequestBody Drug updatedDrug) {
+        Drug drug = drugDao.updateDrug(id, updatedDrug);
+        if (drug != null) {
+            return ResponseEntity.ok(drug);
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
