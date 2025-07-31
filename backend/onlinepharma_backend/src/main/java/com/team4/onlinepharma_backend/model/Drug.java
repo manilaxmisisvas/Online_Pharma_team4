@@ -20,6 +20,9 @@ public class Drug {
     private double price;
 
     private int quantity;
+
+    private String company;
+    private String type;
     
     @Column(nullable = true)
     private Double rating = 0.0; // or null, but 0.0 is safer for numeric fields
@@ -44,6 +47,20 @@ public class Drug {
 
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
+
+    
+    public String getCompany() {
+		return company;
+	}
+	public void setCompany(String company) {
+		this.company = company;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 
     public boolean isBanned() { return banned; }
     public void setBanned(boolean banned) { this.banned = banned; }
