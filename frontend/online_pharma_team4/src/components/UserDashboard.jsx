@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import axios from "axios";
 const UserDashboard = () => {
   const [medicine, setMedicine] = useState([]);
 
-  //sample data for initial development
-  const InitialMedicineList = [
-    { id: "1", name: "paracetamol" },
-    { id: "2", name: "Dolo650" },
-    { id: "3", name: "Dart" },
-    { id: "4", name: "citrizen" },
-    { id: "5", name: "Dethromax" },
-    { id: "6", name: "medicine6" },
-  ];
-
   useEffect(() => {
-    setMedicine(InitialMedicineList);
+    axios
+      .get("http://localhost:8080/api/drugs")
+      .then((response) => {
+        setMedicine(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching medicines:", error);
+      });
   }, []);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -34,7 +31,7 @@ const UserDashboard = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary w-100 m-0">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
             Online Pharmacy
@@ -49,35 +46,67 @@ const UserDashboard = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </form>
-
-          <button className="btn btn-outline-light" onClick={handleLogout}>
-            Logout
-          </button>
+          <div className="d-flex align-items-center gap-3">
+            {/* Cart Icon */}
+            <button className="btn btn-outline-light position-relative">
+              <i className="bi bi-cart-fill"></i>
+            </button>
+            <button className="btn btn-outline-light" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
         </div>
       </nav>
-      <div className="container mt-4">
+      <div className="container-fluid mt-4 px-4">
         <div className="row">
-          {Medicines.map((medicine) => (
-            <div key={medicine.id} className="col-md-4 mb-4">
-              <div
-                style={{ height: "200px", paddingTop: "20px" }}
-                className="card shadow-sm border border-3 border-warning "
-              >
-                <div className=" m-auto  h-50 border border-3 border-blue">
-                  <img src="//" alt="--medicine---" />
-                </div>
-                <div className="card-body">
-                  <div className="d-flex justify-content-between ">
-                    <h5 className="card-title ">{medicine.name}</h5>
-                    <button className="btn btn-primary">Add to cart</button>
+          {Medicines.length === 0 ? (
+            <div className="col-12 text-center">
+              <p className="text-muted">No medicines found.</p>
+            </div>
+          ) : (
+            Medicines.map((medicine) => (
+              <div key={medicine.id} className="col-md-4 col-lg-3 mb-4">
+                <div className="card shadow-sm border border-3 border-warning h-100">
+                  <div
+                    className="d-flex justify-content-center align-items-center p-3"
+                    style={{ height: "100px" }}
+                  >
+                    <img
+                      src="https://via.placeholder.com/80"
+                      alt={medicine.name}
+                      className="img-fluid"
+                    />
+                  </div>
+                  <div className="card-body">
+                    <h5 className="card-title">{medicine.name}</h5>
+                    <p className="card-text mb-1">
+                      <strong>Company:</strong> {medicine.company}
+                    </p>
+                    <p className="card-text mb-1">
+                      <strong>Type:</strong> {medicine.type}
+                    </p>
+                    <p className="card-text mb-1">
+                      <strong>Price:</strong> ₹{medicine.price}
+                    </p>
+                    <p className="card-text mb-1">
+                      <strong>Stock:</strong> {medicine.quantity} units
+                    </p>
+                    <p className="card-text mb-1">
+                      <strong>Rating:</strong> {medicine.rating} ⭐
+                    </p>
+                    {medicine.banned && (
+                      <p className="card-text text-danger">
+                        <strong>BANNED</strong>
+                      </p>
+                    )}
+                    <div className="d-flex justify-content-end mt-3">
+                      <button className="btn btn-primary">Add to cart</button>
+                    </div>
                   </div>
                 </div>
-                {Medicines.length === 0 && (
-                  <p className="text-center text-muted">No medicines found.</p>
-                )}
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </>
