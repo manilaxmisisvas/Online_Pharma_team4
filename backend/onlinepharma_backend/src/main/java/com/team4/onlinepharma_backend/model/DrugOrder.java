@@ -13,61 +13,29 @@ import jakarta.persistence.JoinColumn;
 
 @Entity
 public class DrugOrder {
-	
-	   	@Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private double orderAmount;
 
+    @ManyToMany
+    @JoinTable(
+        name = "order_drugs",
+        joinColumns = @JoinColumn(name = "order_id"),
+        inverseJoinColumns = @JoinColumn(name = "drug_id")
+    )
+    private List<Drug> drugs;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	    private double orderAmount;
-
-	    @ManyToMany
-	    @JoinTable(
-	        name = "order_drugs",
-	        joinColumns = @JoinColumn(name = "order_id"),
-	        inverseJoinColumns = @JoinColumn(name = "drug_id")
-	    )
-	    private List<Drug> drugs;
-	    
-	    @ManyToOne
-	    @JoinColumn(name = "user_id") // foreign key
-	    private User user;
-
-	   
-		public User getUser() {
-			return user;
-		}
-
-		public void setUser(User user) {
-			this.user = user;
-		}
-
-		public Long getId() {
-			return id;
-		}
-
-		public void setId(Long id) {
-			this.id = id;
-		}
-
-		
-
-		
-
-		public double getOrderAmount() {
-			return orderAmount;
-		}
-
-		public void setOrderAmount(double orderAmount) {
-			this.orderAmount = orderAmount;
-		}
-
-		public List<Drug> getDrugs() {
-			return drugs;
-		}
-
-		public void setDrugs(List<Drug> drugs) {
-			this.drugs = drugs;
-		}
-
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public double getOrderAmount() { return orderAmount; }
+    public void setOrderAmount(double orderAmount) { this.orderAmount = orderAmount; }
+    public List<Drug> getDrugs() { return drugs; }
+    public void setDrugs(List<Drug> drugs) { this.drugs = drugs; }
 }

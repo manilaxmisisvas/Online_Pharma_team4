@@ -1,51 +1,52 @@
 package com.team4.onlinepharma_backend.dao;
 
+import com.team4.onlinepharma_backend.model.Drug;
+import com.team4.onlinepharma_backend.repo.DrugRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import com.team4.onlinepharma_backend.model.Drug;
-import com.team4.onlinepharma_backend.repo.DrugRepository;
-
-@Repository
+@Service
 public class DrugDao {
 
     @Autowired
-    private DrugRepository drugRepo;
+    private DrugRepository drugRepository;
 
+    // Returns all drugs (admin use, includes banned)
     public List<Drug> getAllDrugs() {
-        return drugRepo.findAll();
+        return drugRepository.findAll();
     }
 
-    public Drug saveDrug(Drug drug) {
-        return drugRepo.save(drug);
+    // Returns only non-banned drugs (available to users)
+    public List<Drug> getAllAvailableDrugs() {
+        return drugRepository.findByBannedFalse();
     }
 
     public Optional<Drug> getDrugById(Long id) {
-        return drugRepo.findById(id);
+        return drugRepository.findById(id);
     }
-    
-    
+
+    public Drug saveDrug(Drug drug) {
+        return drugRepository.save(drug);
+    }
+
     public void deleteDrug(Long id) {
-        drugRepo.deleteById(id);
+        drugRepository.deleteById(id);
     }
 
     public Drug updateDrug(Long id, Drug updatedDrug) {
-        return drugRepo.findById(id).map(existingDrug -> {
-            existingDrug.setName(updatedDrug.getName());
-            existingDrug.setCompany(updatedDrug.getCompany());
-            existingDrug.setType(updatedDrug.getType());
-            existingDrug.setPrice(updatedDrug.getPrice());
-            existingDrug.setQuantity(updatedDrug.getQuantity());
-            existingDrug.setRating(updatedDrug.getRating());
-            existingDrug.setBanned(updatedDrug.isBanned());
-            return drugRepo.save(existingDrug);
-        }).orElseThrow(() -> new RuntimeException("Drug not found with id " + id));
+        Optional<Drug> drugOpt = drugRepository.findById(id);
+        if (drugOpt.isPresent()) {
+            Drug drug = drugOpt.get();
+            drug.setName(updatedDrug.getName());
+            drug.setDescription(updatedDrug.getDescription());
+            drug.setPrice(updatedDrug.getPrice());
+            drug.setQuantity(updatedDrug.getQuantity());
+            drug.setBanned(updatedDrug.isBanned());  // Update banned field too
+            return drugRepository.save(drug);
+        }
+        return null;
     }
-
-    
-   
-   
 }
