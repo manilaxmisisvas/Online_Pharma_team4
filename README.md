@@ -7,36 +7,35 @@ This project is aimed at building an **Online Pharmacy System**, where users can
 ## 🚀  TECHNOLOGIES USED 
 ## Frontend 📫
 
-![Static Badge](https://img.shields.io/badge/React.js-lightblue)
+<p>
+  <img src="https://img.shields.io/badge/React.js-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
+  <img src="https://img.shields.io/badge/React+Redux-8e44ad?style=for-the-badge&logo=redux&logoColor=white" />
+  <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" />
+</p>
 
-
-![Static Badge](https://img.shields.io/badge/React%20%2B%20Redux-purple)
-
-![Static Badge](https://img.shields.io/badge/Bootstrap-violet)
----
 ## Server Side ⚡
 
-![Static Badge](https://img.shields.io/badge/Maven-black?label=Spring%20Boot%20%20%2B&labelColor=green)
-
-![Static Badge](https://img.shields.io/badge/JAVA-blue)
----
+<p>
+  <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white" />
+  <img src="https://img.shields.io/badge/SpringBoot+Maven-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" />
+</p>
 
 ## Development 🔭
 
-![Static Badge](https://img.shields.io/badge/Open%20JDK%2017-%20lightgreen)
----
+<p>
+  <img src="https://img.shields.io/badge/OpenJDK%2017-007396?style=for-the-badge&logo=java&logoColor=white" />
+</p>
 
 ## Development Tools 📺
-![Eclipse](https://img.shields.io/static/v1?style=for-the-badge&message=eclipse&color=007396&logo=eclipse&logoColor=FFFFFF&label=)
-
-![Static Badge](https://img.shields.io/badge/VS%20Code-%20darkblue)
----
+<p>
+  <img src="https://img.shields.io/badge/Eclipse-2C2255?style=for-the-badge&logo=eclipseide&logoColor=white" />
+  <img src="https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" />
+</p>
 
 ## Database 📦
-
-![Mysql](https://img.shields.io/static/v1?style=for-the-badge&message=MySQL&color=7952B3&logo=mysql&logoColor=FFFFFF&label=)
-
-
+<p>
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" />
+</p>
 
 ---
 
