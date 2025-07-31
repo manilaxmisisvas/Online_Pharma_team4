@@ -81,20 +81,20 @@ This project is aimed at building an **Online Pharmacy System**, where users can
 
 ## Register Page
 
-![register](image.png)
+![A screenshot of the Register Page](ReadmeImages/image.png)
 ---
 ## Login Page
 
-![login](image-1.png)
+![A screenshot of the Login Page](ReadmeImages/image-1.png)
 ---
 ## UserDashboard
 
-![user](image-2.png)
+![A screenshot of the UserDashBoard](ReadmeImages/image-2.png)
 ---
 ## User Table in DataBase
 
-![userDB](image-3.png)
+![A screenshot of the User DataBase](ReadmeImages/image-3.png)
 ---
 ## Drugs Table in DataBase
 
-![DrugDB](image-4.png)
+![A screenshot of Drug DataBase](ReadmeImages/image-4.png)
