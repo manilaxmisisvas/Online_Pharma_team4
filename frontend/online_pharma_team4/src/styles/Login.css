@@ -1,53 +1,36 @@
-
-.login-container {
+.login-bg {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
   height: 100vh;
+  background-color: #f8f9fa; /* Light background color */
 }
 
 .login-card {
-  background-color: #ffffff;
-  padding: 2.5rem;
-  border-radius: 16px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-  max-width: 420px;
-  width: 100%;
-  text-align: left;
-}
-
-.login-card h2 {
-  color: #2c3e50;
-  font-weight: 700;
-}
-
-.login-card p {
-  color: #555;
-  font-size: 15px;
-  margin-bottom: 2rem;
-}
-
-label {
-  font-weight: 600;
-  color: #333;
-}
-
-input.form-control {
-  border: 1px solid #ccc;
+  background-color: white;
   border-radius: 8px;
-  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px; /* Limit the width of the form */
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.info-side {
+  text-align: center;
+  margin-top: 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.text-secondary {
+  text-align: center;
 }
 
 .btn-primary {
-  background-color: #0066ff;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 0;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-  background-color: #004ecc;
+  width: 100%;
+  padding: 10px;
 }

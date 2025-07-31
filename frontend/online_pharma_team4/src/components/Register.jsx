@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios"; // Importing Axios
 import "../styles/Register.css";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   // State hooks for each form field
@@ -14,7 +15,9 @@ const Register = () => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zipCode, setZipCode] = useState("");
-
+  const [mobile, setMobile] = useState("");
+  const [street, setStreet] = useState("");
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -26,7 +29,9 @@ const Register = () => {
       !dob ||
       !city ||
       !state ||
-      !zipCode
+      !zipCode ||
+      !mobile ||
+      !street
     ) {
       alert("Please fill all required fields.");
       return;
@@ -39,7 +44,9 @@ const Register = () => {
       role,
       gender,
       dob,
+      mobile,
       address: {
+        street,
         city,
         state,
         zipCode,
@@ -57,8 +64,7 @@ const Register = () => {
           },
         }
       );
-
-      if (response.status === 200) {
+      if (response.status === 201) {
         alert("Registration successful! Please login.");
         setUsername("");
         setEmail("");
@@ -69,6 +75,9 @@ const Register = () => {
         setCity("");
         setState("");
         setZipCode("");
+        setMobile("");
+        setStreet("");
+        navigate("/login");
       }
     } catch (error) {
       alert(
@@ -129,6 +138,38 @@ const Register = () => {
                 placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            {/* New Mobile Field */}
+            <div className="mb-3">
+              <label htmlFor="mobile" className="form-label">
+                Mobile Number
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="mobile"
+                placeholder="Enter mobile number"
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+                required
+              />
+            </div>
+
+            {/* New Street Address Field */}
+            <div className="mb-3">
+              <label htmlFor="street" className="form-label">
+                Street Address
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="street"
+                placeholder="Enter street address"
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
                 required
               />
             </div>
