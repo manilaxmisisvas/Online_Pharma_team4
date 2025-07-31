@@ -1,25 +1,25 @@
 package com.team4.onlinepharma_backend.security;
 
+import com.team4.onlinepharma_backend.model.User;
+import com.team4.onlinepharma_backend.repo.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.team4.onlinepharma_backend.dao.UserDao;
-import com.team4.onlinepharma_backend.model.User;
-
-@Service("securityCustomUserDetailsService")  // <-- Named bean to match qualifier
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
-        
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User not found with email: " + email));
         return new CustomUserDetails(user);
     }
 }

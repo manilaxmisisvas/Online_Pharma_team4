@@ -20,6 +20,10 @@ public class Drug {
     private double price;
 
     private int quantity;
+    
+    @Column(nullable = true)
+    private Double rating = 0.0; // or null, but 0.0 is safer for numeric fields
+
 
     @Column(nullable = false)
     private boolean banned;
