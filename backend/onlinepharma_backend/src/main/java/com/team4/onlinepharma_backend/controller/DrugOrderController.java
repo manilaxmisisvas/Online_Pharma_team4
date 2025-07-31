@@ -22,7 +22,7 @@ import com.team4.onlinepharma_backend.model.Drug;
 import com.team4.onlinepharma_backend.model.DrugOrder;
 import com.team4.onlinepharma_backend.model.User;
 
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 @RestController
 @RequestMapping("/api")
 public class DrugOrderController {

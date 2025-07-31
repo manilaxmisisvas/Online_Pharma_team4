@@ -21,7 +21,7 @@ import com.team4.onlinepharma_backend.security.JwtUtil;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin(origins = "*", methods = {RequestMethod.POST})
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
