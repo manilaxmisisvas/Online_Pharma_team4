@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/Login.jsx";
 import Admin from "./components/Admin.jsx";
 import Register from "./components/Register.jsx";
+import OAuthSuccess from "./services/OAuthSuccess .jsx";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/user" element={<UserDashboard />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/oauth-success" element={<OAuthSuccess />} />
       </Routes>
     </BrowserRouter>
   );
