@@ -96,4 +96,5 @@ This project is aimed at building an **Online Pharmacy System**, where users can
 ---
 ## Drugs Table in DataBase
 
-![A screenshot of Drug DataBase](backend/onlinepharma_backend/src/main/resources/Readme_Images/DrugDB.jpg)
+![A screenshot of the Drug DataBase](backend/onlinepharma_backend/src/main/resources/Readme_Images/DrugDB.jpg)
+
