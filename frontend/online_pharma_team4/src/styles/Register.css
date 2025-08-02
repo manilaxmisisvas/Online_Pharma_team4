@@ -1,29 +1,47 @@
-
 .register-bg {
-  box-sizing: border-box;
   min-height: 100vh;
   display: flex;
+  margin-top:600px;
   align-items: center;
   justify-content: center;
   font-family: 'Inter', Arial, sans-serif;
-  padding: 0;
+  padding: 20px;
+  background-color: #f0f2f5;
+  box-sizing: border-box;
 }
 
+
 .register-card {
-  background-color: #ffffff;
-  border-radius: 0;
-  box-shadow: none;
   display: flex;
-  width: 720px;
-  max-width: 100%;
+  flex-direction: row;
+  width: 100%;
+  max-width: 900px;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* Left side (form) */
 .card-body {
   flex: 1;
   padding: 40px;
+  box-sizing: border-box;
+}
+
+/* Right side (info panel) */
+.register-card .info-side {
+  flex: 1;
+  background-color: #dbeafe;
+  color: #1e3a8a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 h2 {
@@ -58,14 +76,13 @@ h2 {
   margin-bottom: 16px;
   width: 100%;
   box-sizing: border-box;
-  transition: border-color 0.2s ease;
 }
 
 .form-control:focus,
 .form-select:focus {
   border-color: #2563eb;
   outline: none;
-  background-color: #fff;
+  background-color: #ffffff;
 }
 
 .btn-primary {
@@ -85,17 +102,6 @@ h2 {
   background-color: #1d4ed8;
 }
 
-.register-card .info-side {
-  flex: 1;
-  background-color: #dbeafe;
-  color: #1e3a8a;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 40px;
-  text-align: center;
-}
-
 .info-side h3 {
   font-size: 20px;
   font-weight: 700;
@@ -106,3 +112,88 @@ h2 {
   font-size: 14px;
   color: #1e3a8a;
 }
+
+@media (max-width: 768px) {
+  .register-card {
+    flex-direction: column;
+  }
+
+  .card-body,
+  .register-card .info-side {
+    padding: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .info-side h3 {
+    font-size: 18px;
+  }
+
+  .form-control,
+  .form-select {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .card-body,
+  .register-card .info-side {
+    padding: 20px 16px;
+  }
+
+  .info-side h3 {
+    font-size: 16px;
+  }
+
+  .text-secondary {
+    font-size: 13px;
+  }
+
+  .btn-primary {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-card {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .card-body,
+  .register-card .info-side {
+    padding: 24px 16px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  .info-side h3 {
+    font-size: 16px;
+  }
+
+  .info-side p {
+    font-size: 13px;
+  }
+
+  .form-label {
+    font-size: 13px;
+  }
+
+  .form-control,
+  .form-select {
+    font-size: 12.5px;
+    padding: 8px 10px;
+  }
+
+  .btn-primary {
+    font-size: 13px;
+    padding: 10px;
+  }
+}
+
