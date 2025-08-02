@@ -1,142 +1,115 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Added useNavigate for navigation
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/Login.css";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // React Router hook for navigation
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setError("Both fields are required!");
+    if (!emailOrUsername.trim() || !password.trim()) {
+      setError("Please fill in all fields.");
       return;
     }
 
     const loginData = {
-      email,
+      email: emailOrUsername.includes("@") ? emailOrUsername : null,
+      username: !emailOrUsername.includes("@") ? emailOrUsername : null,
       password,
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
-        loginData
-      );
+      const response = await axios.post("http://localhost:8080/api/auth/login", loginData);
 
-      // Check if the response status is 200 (success)
       if (response.status === 200) {
         const { token, role, email } = response.data;
 
-        // Store JWT token in localStorage
         localStorage.setItem("token", token);
         localStorage.setItem("role", role);
         localStorage.setItem("email", email);
 
-        // Redirect based on the user's role
         if (role === "USER") {
-          navigate("/user"); // Navigate to user page
+          navigate("/user");
         } else if (role === "ADMIN") {
-          navigate("/admin"); // Navigate to admin page
+          navigate("/admin");
         }
       } else {
-        setError("Invalid email or password");
+        setError("Invalid credentials");
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError("Invalid email or password");
+      setError("Login failed. Check your credentials.");
     }
   };
 
   const handleOAuth = (provider) => {
     window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`;
   };
-  
+
   return (
-    <div className="login-bg">
+    <div className="login-container">
       <div className="login-card">
-        <div className="card-body">
-          <h2>Login</h2>
-          <p className="text-secondary">
-            Please enter your credentials to login.
-          </p>
+        <h2 className="text-center mb-4">Login</h2>
+        <p className="text-center mb-4">Please enter your valid credentials to log in.</p>
 
-          {error && <div className="alert alert-danger">{error}</div>}
+        {error && <div className="alert alert-danger text-center">{error}</div>}
 
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                placeholder="Enter email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <button type="submit" className="btn btn-primary">
-                Login
-              </button>
-            </div>
-          </form>
-
-          <p className="text-secondary" style={{ textAlign: "center" }}>
-            Don't have an account?{" "}
-            <Link
-              to="/"
-              className="text-primary fw-semibold text-decoration-none"
-            >
-              Register here
-            </Link>
-          </p>
-        </div>
-
-        <div className="oauth-section">
-          <p>Or login with:</p>
-          <div className="oauth-buttons">
-            <button
-              className="btn btn-outline-danger mb-2 w-100"
-              onClick={() => handleOAuth("google")}
-            >
-              <i className="fab fa-google me-2"></i> Google
-            </button>
-            <button
-              className="btn btn-outline-dark w-100 mb-2"
-              onClick={() => handleOAuth("github")}
-            >
-              <i className="fab fa-github me-2"></i> GitHub
-            </button>
+        <form onSubmit={handleSubmit}>
+          {/* Email or Username */}
+          <div className="mb-3">
+            <label htmlFor="emailOrUsername" className="form-label">Email or Username</label>
+            <input
+              type="text"
+              className="form-control"
+              id="emailOrUsername"
+              placeholder="Enter email or username"
+              value={emailOrUsername}
+              onChange={(e) => setEmailOrUsername(e.target.value)}
+              required
+            />
           </div>
-        </div>
 
-        <div className="info-side">
-          <h3>Welcome Back!</h3>
-          <p>We are glad to see you back!</p>
+          {/* Password */}
+          <div className="mb-4">
+            <label htmlFor="password" className="form-label">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Submit */}
+          <div className="d-grid mb-3">
+            <button type="submit" className="btn btn-primary">Login</button>
+          </div>
+        </form>
+
+        <p className="text-secondary text-center">
+          Don't have an account?{" "}
+          <Link to="/" className="text-primary fw-semibold text-decoration-none">
+            Register here
+          </Link>
+        </p>
+
+        {/* OAuth2 */}
+        <div className="oauth-section mt-4">
+          <p className="text-center">Or login with:</p>
+          <button className="btn btn-outline-danger w-100 mb-2" onClick={() => handleOAuth("google")}>
+            <i className="fab fa-google me-2"></i> Google
+          </button>
+          <button className="btn btn-outline-dark w-100" onClick={() => handleOAuth("github")}>
+            <i className="fab fa-github me-2"></i> GitHub
+          </button>
         </div>
       </div>
     </div>

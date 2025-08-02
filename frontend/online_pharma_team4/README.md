@@ -1,16 +1,99 @@
+# 💊 Online Pharmacy Portal
 
-# React + Vite
+This project is aimed at building an **Online Pharmacy System**, where users can register, browse drugs, manage orders, and perform operations through a secure and interactive web portal.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+## 🚀  TECHNOLOGIES USED 
+## Frontend 📫
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<p>
+  <img src="https://img.shields.io/badge/React.js-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
+  <img src="https://img.shields.io/badge/React+Redux-8e44ad?style=for-the-badge&logo=redux&logoColor=white" />
+  <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" />
+</p>
 
-## Expanding the ESLint configuration
+## Server Side ⚡
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+<p>
+  <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white" />
+  <img src="https://img.shields.io/badge/SpringBoot+Maven-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" />
+</p>
 
-# Online_Pharma_team4
+## Development 🔭
 
+<p>
+  <img src="https://img.shields.io/badge/OpenJDK%2017-007396?style=for-the-badge&logo=java&logoColor=white" />
+</p>
+
+## Development Tools 📺
+<p>
+  <img src="https://img.shields.io/badge/Eclipse-2C2255?style=for-the-badge&logo=eclipseide&logoColor=white" />
+  <img src="https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" />
+</p>
+
+## Database 📦
+<p>
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" />
+</p>
+
+---
+
+## 📌 Features
+
+### 🔐 Authentication & Authorization
+- User login/logout
+- Admin approval required before member can place orders
+
+### 💊 Drug Management (Admin)
+- Add new drugs
+- View, update, delete drug information
+- Search drug by ID or name
+
+### 👥 Member Management
+- Member registration
+- Admin can:
+  - View, update, disable, or delete members
+- Members can:
+  - Edit profile details (email, phone, etc.)
+
+### 🛒 Medicine Order
+- Search drug by name and order
+- Add multiple drugs to cart
+- Auto-calculate total price
+- Order completion (payment not implemented)
+- Cart auto-clears after order
+- Prevents ordering unavailable/insufficient drugs
+- Updates stock after order
+
+---
+
+## 🧩 Modules
+
+- **Login & Registration**
+- **Drug Management**
+- **User/Member Management**
+- **Order & Cart Handling**
+
+---
+# UI View
+
+## Register Page
+
+![A screenshot of the Register Page](backend/onlinepharma_backend/src/main/resources/Readme_Images/Register.jpg)
+---
+## Login Page
+
+![A screenshot of the Login Page](backend/onlinepharma_backend/src/main/resources/Readme_Images/Login.jpg)
+---
+## UserDashboard
+
+![A screenshot of the UserDashBoard](backend/onlinepharma_backend/src/main/resources/Readme_Images/UserDashboard.jpg)
+---
+## User Table in DataBase
+
+![A screenshot of the User DataBase](backend/onlinepharma_backend/src/main/resources/Readme_Images/UserDB.jpg)
+---
+## Drugs Table in DataBase
+
+![A screenshot of the Drug DataBase](backend/onlinepharma_backend/src/main/resources/Readme_Images/DrugDB.jpg)
