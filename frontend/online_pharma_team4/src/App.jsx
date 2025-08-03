@@ -7,6 +7,9 @@ import Register from "./components/Register.jsx";
 import OAuthSuccess from "./services/OAuthSuccess.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
+import OAuthSuccess from "./services/OAuthSuccess .jsx";
+
+
 function App() {
   return (
     <BrowserRouter>
