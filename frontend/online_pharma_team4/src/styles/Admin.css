@@ -1,13 +1,27 @@
+
 .admin-bg {
   background: linear-gradient(120deg, #f8fafc 0%, #e8f0fe 100%);
   min-height: 100vh;
   padding-bottom: 3rem;
 }
 
+/* Navbar styling */
 .admin-navbar {
   background: linear-gradient(90deg, #1976d2 60%, #5e60ce 100%) !important;
   border-radius: 0 0 1rem 1rem;
 }
+
+
+.admin-navbar .navbar-brand,
+.admin-navbar .nav-link {
+  color: #fff !important; 
+}
+
+.admin-navbar .nav-link:hover,
+.admin-navbar .nav-link:focus {
+  color: #d1eaff !important; 
+}
+
 
 .admin-card {
   border-radius: 1rem !important;
@@ -15,19 +29,17 @@
 }
 
 .admin-card:hover {
-  box-shadow: 0 8px 24px 0 rgba(60, 72, 90, 0.12), 0 1.5px 9.5px 0 rgba(60, 72, 90, 0.03);
+  box-shadow:
+    0 8px 24px 0 rgba(60, 72, 90, 0.12),
+    0 1.5px 9.5px 0 rgba(60, 72, 90, 0.03);
 }
+
+/* Card Headers */
 .admin-cardheader-profile {
   background: linear-gradient(90deg, #4285F4 70%, #709fe0 100%);
   color: #fff;
   font-weight: 500;
   border-radius: 1rem 1rem 0 0;
-}
-
-.admin-card .btn {
-  padding: 0.5rem 1.5rem;
-  font-size: 0.95rem;
-  min-width: 120px;
 }
 
 .admin-cardheader-users {
@@ -51,7 +63,13 @@
   border-radius: 1rem 1rem 0 0;
 }
 
-/* Button styles */
+/* Buttons */
+.admin-card .btn {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.95rem;
+  min-width: 120px;
+}
+
 .admin-btn-primary {
   background: #1976d2;
   color: #fff;
@@ -65,6 +83,7 @@
   background: #155fa0;
   color: #fff;
 }
+
 .admin-btn-secondary {
   background: #5e60ce;
   color: #fff;
@@ -73,6 +92,7 @@
   font-weight: 500;
   margin: 2px;
 }
+
 .admin-btn-warning {
   background: #ffd166;
   color: #6d4606;
@@ -81,6 +101,7 @@
   font-weight: 500;
   margin: 2px;
 }
+
 .admin-btn-danger {
   background: #d7263d;
   color: #fff;

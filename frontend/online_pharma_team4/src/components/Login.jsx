@@ -1,91 +1,148 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../services/AuthService"; // New service file
 import "../styles/Login.css";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({
+    emailOrName: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
+    useEffect(() => {
+    setForm({ emailOrName: "", password: "" });
+  }, []);
 
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleOAuth = (provider) => {
+    window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`;
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    if (!username.trim() || !password.trim()) {
-      alert("Please fill in all fields.");
+    if (!form.emailOrName || !form.password) {
+      alert("Both fields are required!");
+      setIsLoading(false);
       return;
     }
 
-    const loginData = {
-      username,
-      password,
-    };
-
     try {
-      const response = await fetch("http://localhost:8080/authenticate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ loginData}),
-      });
+      const { token, role, email } = await login(form);
+      alert("Login successful!");
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+      localStorage.setItem("email", email);
 
-      if (response.ok) {
-        const token = await response.text(); // backend returns JWT as plain text
-        alert("Login successful");
-        // Option-> save token in localStorage for authenticated requests
-        localStorage.setItem("jwtToken", token);
+        // Reset form fields
+        setForm({ emailOrName: "", password: "" });
 
-        // Reset fields
-        setUsername("");
-        setPassword("");
-      } else {
-        alert("Login failed: Invalid username or password");
+      if (role === "USER") {
+        navigate("/user");
+      } else if (role === "ADMIN") {
+        navigate("/admin");
       }
-    } catch (error) {
-      alert("Login error: " + error.message);
+    } catch (err) {
+      console.error(err);
+      alert("Invalid email/username or password.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="login-container">
+    <div className="login-bg">
       <div className="login-card">
-        <h2 className="text-center mb-4">Login</h2>
-        <p className="text-center mb-4">Please enter your valid credentials to log in.</p>
-        <form onSubmit={handleSubmit}>
-          {/* Username */}
-          <div className="row mb-3 align-items-center">
-            <label htmlFor="username" className="col-sm-3 col-form-label">Username</label>
-            <div className="col-sm-9">
+        <div className="card-body">
+          <h2>Login</h2>
+          <p className="text-secondary">
+            Please enter your credentials to login.
+          </p>
+
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="emailOrName" className="form-label">
+                Email or Username
+              </label>
               <input
                 type="text"
                 className="form-control"
-                id="username"
-                placeholder="Enter username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                id="emailOrName"
+                name="emailOrName"
+                placeholder="Enter email or username"
+                value={form.emailOrName}
+                onChange={handleChange}
+                autoComplete="off"
                 required
               />
             </div>
-          </div>
 
-          {/* Password */}
-          <div className="row mb-4 align-items-center">
-            <label htmlFor="password" className="col-sm-3 col-form-label">Password</label>
-            <div className="col-sm-9">
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
               <input
                 type="password"
                 className="form-control"
                 id="password"
+                name="password"
                 placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={form.password}
+                onChange={handleChange}
+                autoComplete="new-password"
                 required
               />
             </div>
-          </div>
 
-          {/* Submit */}
-          <div className="d-grid">
-            <button type="submit" className="btn btn-primary">Login</button>
+            <div className="mb-3">
+              <button
+                type="submit"
+                className="btn btn-primary w-100"
+                disabled={isLoading}
+              >
+                {isLoading ? "Logging in..." : "Login"}
+              </button>
+            </div>
+          </form>
+
+          <p className="text-secondary" style={{ textAlign: "center" }}>
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              className="text-primary fw-semibold text-decoration-none"
+            >
+              Register here
+            </Link>
+          </p>
+        </div>
+
+        <div className="oauth-section">
+          <p>Or login with:</p>
+          <div className="oauth-buttons">
+            <button
+              className="btn btn-outline-danger mb-2 w-100"
+              onClick={() => handleOAuth("google")}
+            >
+              <i className="fab fa-google me-2"></i> Google
+            </button>
+            <button
+              className="btn btn-outline-dark w-100 mb-2"
+              onClick={() => handleOAuth("github")}
+            >
+              <i className="fab fa-github me-2"></i> GitHub
+            </button>
           </div>
-        </form>
+        </div>
+
+        <div className="info-side">
+          <h3>Welcome Back!</h3>
+          <p>We are glad to see you back!</p>
+        </div>
       </div>
     </div>
   );

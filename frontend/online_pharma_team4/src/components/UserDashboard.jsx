@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { getUserProfile } from "../services/UserService";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const UserDashboard = () => {
   const [medicine, setMedicine] = useState([]);
+  const [profile, setProfile] = useState(null);
+  const [loadingProfile, setLoadingProfile] = useState(false);
+  const [profileError, setProfileError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isProfileVisible, setIsProfileVisible] = useState(false);
+  const profileRef = useRef(null);
 
-  //sample data for initial development
   const InitialMedicineList = [
     { id: "1", name: "paracetamol" },
     { id: "2", name: "Dolo650" },
@@ -18,15 +24,48 @@ const UserDashboard = () => {
     setMedicine(InitialMedicineList);
   }, []);
 
-  const [searchTerm, setSearchTerm] = useState("");
-
   const handleLogout = () => {
-    // logout logic here later
-    console.log("Logged out");
+    localStorage.clear();
+    alert("Logged out!");
+    window.location.href = "/login";
   };
 
-  //filtering medicines based on search parameters
-  const Medicines = searchTerm
+  const toggleProfile = async () => {
+    // Open profile view and fetch if not currently visible
+    if (!isProfileVisible) {
+      setLoadingProfile(true);
+      setProfileError(null);
+      try {
+        const data = await getUserProfile();
+        setProfile(data);
+        setIsProfileVisible(true);
+      } catch {
+        setProfileError("Failed to load profile");
+      } finally {
+        setLoadingProfile(false);
+      }
+    } else {
+      // Close profile view if visible
+      setIsProfileVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!isProfileVisible) return;
+
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileVisible(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isProfileVisible]);
+
+  const filteredMedicines = searchTerm
     ? medicine.filter((med) =>
         med.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
@@ -39,7 +78,6 @@ const UserDashboard = () => {
           <a className="navbar-brand" href="#">
             Online Pharmacy
           </a>
-
           <form className="d-flex mx-auto" style={{ width: "50%" }}>
             <input
               className="form-control me-2"
@@ -49,30 +87,71 @@ const UserDashboard = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </form>
-
           <button className="btn btn-outline-light" onClick={handleLogout}>
             Logout
           </button>
         </div>
       </nav>
+
       <div className="container mt-4">
+        <div className="mb-4 p-3 border rounded shadow-sm position-relative">
+          <h3>User Profile</h3>
+          <button
+            className="btn btn-primary mb-3"
+            onClick={toggleProfile}
+            disabled={loadingProfile}
+          >
+            {loadingProfile
+              ? "Loading Profile..."
+              : isProfileVisible
+              ? "Hide Profile"
+              : "View Profile"}
+          </button>
+
+          {profileError && <p className="text-danger">{profileError}</p>}
+
+          {isProfileVisible && profile && (
+            <div ref={profileRef} className="card p-3">
+              <p><strong>Name:</strong> {profile.name}</p>
+              <p><strong>Email:</strong> {profile.email}</p>
+              <p><strong>Role:</strong> {profile.role}</p>
+              <p><strong>Mobile:</strong> {profile.mobile}</p>
+              <p>
+                <strong>Date of Birth:</strong>{" "}
+                {profile.dob ? new Date(profile.dob).toLocaleDateString() : "N/A"}
+              </p>
+              <p><strong>Gender:</strong> {profile.gender || "N/A"}</p>
+              <p><strong>Status:</strong> {profile.disabled ? "Disabled" : "Active"}</p>
+              {profile.address && (
+                <>
+                  <p><strong>Address:</strong></p>
+                  <p>
+                    {profile.address.street || ""} {profile.address.city || ""},{" "}
+                    {profile.address.state || ""} {profile.address.zipcode || ""}
+                  </p>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+
         <div className="row">
-          {Medicines.map((medicine) => (
-            <div key={medicine.id} className="col-md-4 mb-4">
+          {filteredMedicines.map((med) => (
+            <div key={med.id} className="col-md-4 mb-4">
               <div
                 style={{ height: "200px", paddingTop: "20px" }}
-                className="card shadow-sm border border-3 border-warning "
+                className="card shadow-sm border border-3 border-warning"
               >
-                <div className=" m-auto  h-50 border border-3 border-blue">
+                <div className="m-auto h-50 border border-3 border-blue">
                   <img src="//" alt="--medicine---" />
                 </div>
                 <div className="card-body">
-                  <div className="d-flex justify-content-between ">
-                    <h5 className="card-title ">{medicine.name}</h5>
+                  <div className="d-flex justify-content-between">
+                    <h5 className="card-title">{med.name}</h5>
                     <button className="btn btn-primary">Add to cart</button>
                   </div>
                 </div>
-                {Medicines.length === 0 && (
+                {filteredMedicines.length === 0 && (
                   <p className="text-center text-muted">No medicines found.</p>
                 )}
               </div>
