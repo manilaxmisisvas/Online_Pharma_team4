@@ -12,8 +12,15 @@ const Cart = () => {
   );
 
   const goToPayment = () => {
-    navigate("/payment", { state: { total } }); // pass total using state
-  };
+  const drugsForOrder = cartItems.map(({ id, quantity }) => ({
+    id,
+    quantity,
+  }));
+  navigate("/payment", {
+    state: { total, drugs: drugsForOrder },
+  });
+};
+
 
   const increaseQty = (id, currentQty) => {
     updateCart(id, currentQty + 1);
@@ -100,4 +107,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default Cart;

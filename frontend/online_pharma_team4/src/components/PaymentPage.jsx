@@ -5,16 +5,25 @@ import axios from "axios";
 const PaymentPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
   const [amount, setAmount] = useState(location.state?.total || 0);
+  const [drugs, setDrugs] = useState(location.state?.drugs || []);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    if (!location.state || !location.state.drugs || !location.state.total) {
+      alert("No order data found, redirecting to cart.");
+      navigate("/cart");
+      return;
+    }
+
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
     script.async = true;
     document.body.appendChild(script);
 
     fetchUserDetails();
+    // eslint-disable-next-line
   }, []);
 
   const fetchUserDetails = async () => {
@@ -22,52 +31,56 @@ const PaymentPage = () => {
       const token = localStorage.getItem("token");
       if (!token) {
         alert("User not logged in.");
+        navigate("/login");
         return;
       }
-
       const response = await axios.get("http://localhost:8080/api/user/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-
       setUser(response.data);
-    } catch (err) {
-      console.error("Error fetching user details:", err);
+    } catch (error) {
       alert("Failed to load user details.");
+      navigate("/login");
     }
   };
 
-  const handlePayment = async () => {
+  const handlePayment = () => {
     if (!user) {
       alert("User details not loaded yet.");
       return;
     }
 
+    if (!drugs.length) {
+      alert("No products selected.");
+      navigate("/cart");
+      return;
+    }
+
     const options = {
-      key: "rzp_test_4Ea0vvGa7O4ivP", // Your Razorpay Test Key
+      key: "rzp_test_4Ea0vvGa7O4ivP",
       amount: amount * 100,
       currency: "INR",
       name: "Online Pharma",
       description: "Order Payment",
       handler: async function (response) {
         try {
-          await axios.post("http://localhost:8080/api/drug_order", {
-            order_amount: amount,
-            user_id: user.id,
-          });
+          await axios.post(
+            `http://localhost:8080/api/user/${user.id}/orders`,
+            { drugs }, // send drugs with id and quantity
+            { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+          );
 
           alert("✅ Payment successful. Order saved!");
-          navigate("/user");
+          navigate("/user");  // or wherever you want to go next
         } catch (error) {
-          console.error("❌ Failed to store order:", error);
-          alert("Payment succeeded, but storing order failed.");
+          alert("Payment succeeded but storing order failed.");
+          console.error(error);
         }
       },
       prefill: {
-        name: user.name || "User",
-        email: user.email || "email@example.com",
-        contact: user.mobile || "",
+        name: user.name,
+        email: user.email,
+        contact: user.mobile,
       },
       theme: {
         color: "#0d6efd",
@@ -85,6 +98,17 @@ const PaymentPage = () => {
         <h5 className="mb-3">🧾 Order Summary</h5>
         <p><strong>Total Amount:</strong> ₹{amount}</p>
 
+        <div>
+          <h6>Products:</h6>
+          <ul>
+            {drugs.map((drug, i) => (
+              <li key={drug.id || i}>
+                Drug ID: {drug.id}, Quantity: {drug.quantity}
+              </li>
+            ))}
+          </ul>
+        </div>
+
         {user ? (
           <div className="mt-4">
             <h5>👤 User Details</h5>
@@ -99,9 +123,7 @@ const PaymentPage = () => {
         )}
 
         <div className="text-center mt-4">
-          <button className="btn btn-primary" onClick={handlePayment}>
-            Pay Now
-          </button>
+          <button className="btn btn-primary" onClick={handlePayment}>Pay Now</button>
         </div>
       </div>
     </div>
