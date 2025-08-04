@@ -38,4 +38,6 @@ export const banUnbanDrug = (id, banned) =>
   });
 
 export const deleteDrugById = (id) =>
+
   axios.delete(`${API_BASE_URL}/drugs/${id}`, { headers: getAuthHeaders() });
+
