@@ -78,7 +78,6 @@ public class JwtUtil {
                 .compact();
     }
 
-
 	public String generateTokenFromEmail(String email) {
 		 Map<String, Object> claims = new HashMap<>();
 	        return createToken(claims, email);
