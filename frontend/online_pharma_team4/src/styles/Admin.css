@@ -1,0 +1,96 @@
+.admin-bg {
+  background: linear-gradient(120deg, #f8fafc 0%, #e8f0fe 100%);
+  min-height: 100vh;
+  padding-bottom: 3rem;
+}
+
+.admin-navbar {
+  background: linear-gradient(90deg, #1976d2 60%, #5e60ce 100%) !important;
+  border-radius: 0 0 1rem 1rem;
+}
+
+.admin-card {
+  border-radius: 1rem !important;
+  transition: box-shadow 0.2s ease;
+}
+
+.admin-card:hover {
+  box-shadow: 0 8px 24px 0 rgba(60, 72, 90, 0.12), 0 1.5px 9.5px 0 rgba(60, 72, 90, 0.03);
+}
+.admin-cardheader-profile {
+  background: linear-gradient(90deg, #4285F4 70%, #709fe0 100%);
+  color: #fff;
+  font-weight: 500;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.admin-card .btn {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.95rem;
+  min-width: 120px;
+}
+
+.admin-cardheader-users {
+  background: linear-gradient(90deg, #39afd4 70%, #6ed3cf 100%);
+  color: #fff;
+  font-weight: 500;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.admin-cardheader-products {
+  background: linear-gradient(90deg, #33d38e 70%, #85b74c 100%);
+  color: #fff;
+  font-weight: 500;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.admin-cardheader-logout {
+  background: linear-gradient(90deg, #d7263d 70%, #fa7070 100%);
+  color: #fff;
+  font-weight: 500;
+  border-radius: 1rem 1rem 0 0;
+}
+
+/* Button styles */
+.admin-btn-primary {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 2rem;
+  font-weight: 500;
+  margin: 2px;
+  transition: background 0.2s ease;
+}
+.admin-btn-primary:hover {
+  background: #155fa0;
+  color: #fff;
+}
+.admin-btn-secondary {
+  background: #5e60ce;
+  color: #fff;
+  border: none;
+  border-radius: 2rem;
+  font-weight: 500;
+  margin: 2px;
+}
+.admin-btn-warning {
+  background: #ffd166;
+  color: #6d4606;
+  border: none;
+  border-radius: 2rem;
+  font-weight: 500;
+  margin: 2px;
+}
+.admin-btn-danger {
+  background: #d7263d;
+  color: #fff;
+  border: none;
+  border-radius: 2rem;
+  font-weight: 500;
+  margin: 2px;
+  transition: background 0.2s ease;
+}
+.admin-btn-danger:hover {
+  background: #ac1f30;
+  color: #fff;
+}
