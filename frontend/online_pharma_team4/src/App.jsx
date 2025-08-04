@@ -19,8 +19,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Register />} />
           <Route path="/login" element={<Login />} />
-
-          {/* User Dashboard route */}
           <Route path="/user" element={<UserDashboard />} />
 
           {/* Protected admin route */}

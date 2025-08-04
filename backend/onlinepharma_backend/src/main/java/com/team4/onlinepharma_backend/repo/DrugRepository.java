@@ -1,9 +1,10 @@
 package com.team4.onlinepharma_backend.repo;
 
-import com.team4.onlinepharma_backend.model.Drug;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import com.team4.onlinepharma_backend.model.Drug;
 
 public interface DrugRepository extends JpaRepository<Drug, Long> {
 
