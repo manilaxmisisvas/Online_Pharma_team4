@@ -5,7 +5,7 @@ import Register from "./components/Register.jsx";
 import Login from "./components/Login.jsx";
 import UserDashboard from "./components/UserDashboard.jsx";
 import Admin from "./components/AdminDashboard.jsx";
-import OAuthSuccess from "./services/OAuthSuccess.jsx";
+import OAuthSuccess from "./services/OAuthSuccess .jsx"
 import Cart from "./components/Cart.jsx";
 import PaymentPage from "./components/PaymentPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
