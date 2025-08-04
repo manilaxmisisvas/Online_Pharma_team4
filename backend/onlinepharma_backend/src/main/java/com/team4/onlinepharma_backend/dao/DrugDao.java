@@ -3,33 +3,31 @@ package com.team4.onlinepharma_backend.dao;
 import com.team4.onlinepharma_backend.model.Drug;
 import com.team4.onlinepharma_backend.repo.DrugRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Repository
 public class DrugDao {
 
     @Autowired
     private DrugRepository drugRepository;
 
-    // Returns all drugs (admin use, includes banned)
-    public List<Drug> getAllDrugs() {
-        return drugRepository.findAll();
-    }
-
-    // Returns only non-banned drugs (available to users)
-    public List<Drug> getAllAvailableDrugs() {
-        return drugRepository.findByBannedFalse();
+    public Drug saveDrug(Drug drug) {
+        return drugRepository.save(drug);
     }
 
     public Optional<Drug> getDrugById(Long id) {
         return drugRepository.findById(id);
     }
 
-    public Drug saveDrug(Drug drug) {
-        return drugRepository.save(drug);
+    public List<Drug> getAllDrugs() {
+        return drugRepository.findAll();
+    }
+
+    public List<Drug> getAllAvailableDrugs() {
+        return drugRepository.findByBannedFalse();
     }
 
     public void deleteDrug(Long id) {
@@ -37,15 +35,29 @@ public class DrugDao {
     }
 
     public Drug updateDrug(Long id, Drug updatedDrug) {
-        Optional<Drug> drugOpt = drugRepository.findById(id);
-        if (drugOpt.isPresent()) {
-            Drug drug = drugOpt.get();
-            drug.setName(updatedDrug.getName());
-            drug.setDescription(updatedDrug.getDescription());
-            drug.setPrice(updatedDrug.getPrice());
-            drug.setQuantity(updatedDrug.getQuantity());
-            drug.setBanned(updatedDrug.isBanned());  // Update banned field too
-            return drugRepository.save(drug);
+        Optional<Drug> existingDrugOpt = drugRepository.findById(id);
+        if (existingDrugOpt.isPresent()) {
+            Drug existingDrug = existingDrugOpt.get();
+            if (updatedDrug.getName() != null && !updatedDrug.getName().trim().isEmpty()) {
+                existingDrug.setName(updatedDrug.getName());
+            }
+            if (updatedDrug.getDescription() != null && !updatedDrug.getDescription().trim().isEmpty()) {
+                existingDrug.setDescription(updatedDrug.getDescription());
+            }
+            existingDrug.setPrice(updatedDrug.getPrice());
+            existingDrug.setQuantity(updatedDrug.getQuantity());
+            if (updatedDrug.getCompany() != null && !updatedDrug.getCompany().trim().isEmpty()) {
+                existingDrug.setCompany(updatedDrug.getCompany());
+            }
+            if (updatedDrug.getType() != null && !updatedDrug.getType().trim().isEmpty()) {
+                existingDrug.setType(updatedDrug.getType());
+            }
+            existingDrug.setBanned(updatedDrug.isBanned());
+            
+            if (updatedDrug.getRating() != null) {
+                existingDrug.setRating(updatedDrug.getRating());
+            }
+            return drugRepository.save(existingDrug);
         }
         return null;
     }
