@@ -97,7 +97,7 @@ mvn spring-boot:run
 ### 1. Navigate to Frontend Directory
 
 ```bash
-cd ../onlinepharma_frontend
+cd ../Online_Pharma_team4/frontend
 ```
 
 ### 2. Install Dependencies
@@ -189,15 +189,27 @@ You can test backend APIs using Postman.
 
 ### Register Page
 
-![Register Page](backend/onlinepharma_backend/src/main/resources/Readme_Images/Register.jpg)
+![Register Page](backend/onlinepharma_backend/src/main/resources/Readme_Images/registration1.png)
 
 ### Login Page
 
-![Login Page](backend/onlinepharma_backend/src/main/resources/Readme_Images/Login.jpg)
+![Login Page](backend/onlinepharma_backend/src/main/resources/Readme_Images/Login1.png)
 
 ### User Dashboard
 
-![User Dashboard](backend/onlinepharma_backend/src/main/resources/Readme_Images/UserDashboard.jpg)
+![User Dashboard](backend/onlinepharma_backend/src/main/resources/Readme_Images/UserDashboard1.png)
+
+### Admin Dashboard
+
+![Admin Dashboard](backend/onlinepharma_backend/src/main/resources/Readme_Images/AdminDashboard.png)
+
+### View Products
+
+![View Products](backend/onlinepharma_backend/src/main/resources/Readme_Images/ViewProducts.png)
+
+### My Cart
+
+![My Cart](backend/onlinepharma_backend/src/main/resources/Readme_Images/cart.png)
 
 ### User Table (Database)
 
