@@ -3,8 +3,6 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedRoute = ({ allowedRole }) => {
   const role = localStorage.getItem("role");
-  console.log("ProtectedRoute role:", role);
-  
 
   // If no role stored, user not logged in
   if (!role) {
@@ -25,4 +23,3 @@ const ProtectedRoute = ({ allowedRole }) => {
 };
 
 export default ProtectedRoute;
- 

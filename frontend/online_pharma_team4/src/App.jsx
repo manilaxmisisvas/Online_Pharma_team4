@@ -2,12 +2,12 @@
 import UserDashboard from "./components/UserDashboard";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/Login.jsx";
-import Admin from "./components/Admin.jsx";
+import Admin from "./components/AdminDashboard.jsx";
 import Register from "./components/Register.jsx";
-import OAuthSuccess from "./services/OAuthSuccess.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
-
 import OAuthSuccess from "./services/OAuthSuccess .jsx";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 
 function App() {

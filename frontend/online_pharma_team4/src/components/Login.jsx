@@ -113,7 +113,7 @@ const Login = () => {
           <p className="text-secondary" style={{ textAlign: "center" }}>
             Don't have an account?{" "}
             <Link
-              to="/register"
+              to="/"
               className="text-primary fw-semibold text-decoration-none"
             >
               Register here

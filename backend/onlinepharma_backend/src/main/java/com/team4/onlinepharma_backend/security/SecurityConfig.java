@@ -1,9 +1,8 @@
 package com.team4.onlinepharma_backend.security;
 
-import java.util.List;
-
 
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,13 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-
-import com.team4.onlinepharma_backend.service.CustomOAuth2SuccessHandler;
-import com.team4.onlinepharma_backend.service.CustomOAuth2UserService;
 
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -35,6 +27,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.team4.onlinepharma_backend.service.CustomOAuth2SuccessHandler;
 import com.team4.onlinepharma_backend.service.CustomOAuth2UserService;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 
 @Configuration
@@ -47,6 +41,7 @@ public class SecurityConfig {
 
     @Autowired
     private JwtAuthenticateFilter jwtAuthenticateFilter;
+
     
     @Autowired
     private CustomOAuth2UserService oAuth2UserService;
@@ -61,8 +56,7 @@ public class SecurityConfig {
 
         .cors()
         .and()
-        .cors()
-        .and()
+
             .authorizeHttpRequests()
             .requestMatchers(
                 "/api/auth/login",
@@ -72,6 +66,8 @@ public class SecurityConfig {
             .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
             .requestMatchers("/api/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated()
+
+           
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
@@ -79,6 +75,11 @@ public class SecurityConfig {
                     .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
                     .successHandler(oAuth2SuccessHandler)
                 )
+            .exceptionHandling(ex -> ex
+                    .authenticationEntryPoint((request, response, authException) ->
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized"))
+                )
+
             .authenticationProvider(authenticationProvider())
             .addFilterBefore(jwtAuthenticateFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -101,7 +102,9 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
-    }    
+    }
+
+    
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
@@ -114,4 +117,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
 }
