@@ -28,6 +28,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.team4.onlinepharma_backend.service.CustomOAuth2SuccessHandler;
 import com.team4.onlinepharma_backend.service.CustomOAuth2UserService;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 
 @Configuration
 @EnableWebSecurity
@@ -72,6 +74,10 @@ public class SecurityConfig {
             .oauth2Login(oauth2 -> oauth2
                     .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
                     .successHandler(oAuth2SuccessHandler)
+                )
+            .exceptionHandling(ex -> ex
+                    .authenticationEntryPoint((request, response, authException) ->
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized"))
                 )
 
             .authenticationProvider(authenticationProvider())
