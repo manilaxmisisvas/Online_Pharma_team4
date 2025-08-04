@@ -112,7 +112,7 @@ npm install
 npm start
 ```
 
-> Frontend will run at: `http://localhost:3000`
+> Frontend will run at: `http://localhost:5173`
 
 ---
 
@@ -139,7 +139,7 @@ You can test backend APIs using Postman.
 
 ## 🧪 Test the Application
 
-    1. Open `http://localhost:3000`
+    1. Open `http://localhost:5173`
     2. Register/Login
     3. Explore:  Drug browsing & ordering, Cart handling, Admin functions
 
