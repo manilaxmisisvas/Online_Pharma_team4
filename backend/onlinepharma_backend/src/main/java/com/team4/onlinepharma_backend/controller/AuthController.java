@@ -23,14 +23,7 @@ import com.team4.onlinepharma_backend.dao.UserDao;
 import com.team4.onlinepharma_backend.model.User;
 import com.team4.onlinepharma_backend.security.JwtUtil;
 
-<<<<<<< HEAD
-import java.util.HashMap;
-import java.util.Map;
-
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-=======
 @CrossOrigin(origins = "*")
->>>>>>> 2d2362a9391b4c4fc294f355fe4895055b42737f
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

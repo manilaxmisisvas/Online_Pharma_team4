@@ -3,9 +3,6 @@ package com.team4.onlinepharma_backend.controller;
 import java.util.List;
 import java.util.Optional;
 
-<<<<<<< HEAD
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-=======
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,7 +22,6 @@ import com.team4.onlinepharma_backend.dao.DrugDao;
 import com.team4.onlinepharma_backend.model.Drug;
 
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
->>>>>>> 2d2362a9391b4c4fc294f355fe4895055b42737f
 @RestController
 @RequestMapping("/api")
 public class DrugController {
