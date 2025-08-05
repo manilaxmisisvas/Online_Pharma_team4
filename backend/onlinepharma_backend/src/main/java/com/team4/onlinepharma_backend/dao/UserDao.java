@@ -1,12 +1,13 @@
 package com.team4.onlinepharma_backend.dao;
 
-import com.team4.onlinepharma_backend.model.User;
-import com.team4.onlinepharma_backend.repo.UserRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.team4.onlinepharma_backend.model.User;
+import com.team4.onlinepharma_backend.repo.UserRepository;
 
 @Service
 public class UserDao {

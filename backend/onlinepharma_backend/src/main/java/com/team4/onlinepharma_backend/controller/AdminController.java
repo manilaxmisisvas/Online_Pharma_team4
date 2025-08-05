@@ -7,7 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.team4.onlinepharma_backend.dao.DrugDao;
 import com.team4.onlinepharma_backend.dao.UserDao;
@@ -103,12 +112,12 @@ public class AdminController {
     }
 
     
-   // http://localhost:8080/api/admin/drugs
-    @GetMapping("/drugs")
-    public ResponseEntity<List<Drug>> getAllDrugs() {
-        List<Drug> drugs = drugDao.getAllDrugs();
-        return ResponseEntity.ok(drugs);
-    }
+//   // http://localhost:8080/api/admin/drugs
+//    @GetMapping("/drugs")
+//    public ResponseEntity<List<Drug>> getAllDrugs() {
+//        List<Drug> drugs = drugDao.getAllDrugs();
+//        return ResponseEntity.ok(drugs);
+//    }
 
     //http://localhost:8080/api/admin/drugs/{id}
     @DeleteMapping("/drugs/{id}")
@@ -122,14 +131,14 @@ public class AdminController {
         }
     }
 
-    // http://localhost:8080/api/admin/drugs/{id}
-    @PutMapping("/drugs/{id}")
-    public ResponseEntity<Drug> updateDrug(@PathVariable Long id, @RequestBody Drug updatedDrug) {
-        Drug drug = drugDao.updateDrug(id, updatedDrug);
-        if (drug != null) {
-            return ResponseEntity.ok(drug);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    // http://localhost:8080/api/admin/drugs/{id}
+//    @PutMapping("/drugs/{id}")
+//    public ResponseEntity<Drug> updateDrug(@PathVariable Long id, @RequestBody Drug updatedDrug) {
+//        Drug drug = drugDao.updateDrug(id, updatedDrug);
+//        if (drug != null) {
+//            return ResponseEntity.ok(drug);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 }
