@@ -30,9 +30,19 @@ public class Drug {
     @Column(nullable = false)
     private boolean banned;
 
+    @Column(length = 10000)
+    private String imgurl;
     // Getters and setters
 
-    public Long getId() {
+    public String getImgurl() {
+		return imgurl;
+	}
+
+	public void setImgurl(String imgurl) {
+		this.imgurl = imgurl;
+	}
+
+	public Long getId() {
         return id;
     }
 
