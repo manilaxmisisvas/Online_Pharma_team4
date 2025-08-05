@@ -9,6 +9,8 @@ import com.team4.onlinepharma_backend.model.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     Optional<User> findByName(String name);
-
+    default Optional<User> findByEmailOrName(String input) {
+        return findByEmail(input).or(() -> findByName(input));
+    }
     
 }

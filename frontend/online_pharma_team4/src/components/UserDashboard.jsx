@@ -3,12 +3,15 @@ import axios from "axios";
 import { useCart } from "./cartcontext";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Offcanvas } from "react-bootstrap";
 
 const UserDashboard = () => {
   const [drugs, setDrugs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDrug, setSelectedDrug] = useState(null);
+  const [showProfile, setShowProfile] = useState(false);
+  const [profileData, setProfileData] = useState(null);
+
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
@@ -28,7 +31,21 @@ const UserDashboard = () => {
     alert(`${drug.name} added to cart!`);
   };
 
-  // 🔹 Filter: Only show non-banned drugs (banned !== 2)
+  const handleShowProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:8080/api/user/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setProfileData(res.data);
+      setShowProfile(true);
+    } catch (err) {
+      console.error("Error fetching profile:", err);
+    }
+  };
+
+  const handleCloseProfile = () => setShowProfile(false);
+
   const filteredDrugs = drugs
     .filter((drug) => drug.banned !== 2)
     .filter((drug) =>
@@ -37,42 +54,41 @@ const UserDashboard = () => {
 
   return (
     <>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div className="container">
+          <a className="navbar-brand" href="#">Online Pharmacy</a>
 
+          <div className="d-flex flex-grow-1 justify-content-center">
+            <form className="d-flex w-75">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search medicines..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </form>
+          </div>
 
-<nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div className="container">
-    <a className="navbar-brand" href="#">Online Pharmacy</a>
-
-    <div className="d-flex flex-grow-1 justify-content-center">
-      <form className="d-flex w-75">
-        <input
-          className="form-control me-2"
-          type="search"
-          placeholder="Search medicines..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </form>
-    </div>
-
-    <div className="d-flex gap-2">
-      <button className="btn btn-outline-light" onClick={() => navigate("/cart")}>
-        🛒 My Cart
-      </button>
-     <button
-  className="btn btn-outline-light"
-  onClick={() => {
-    localStorage.clear(); 
-    navigate("/login"); 
-  }}
->
-  Logout
-</button>
-
-
-    </div>
-  </div>
-</nav>
+          <div className="d-flex gap-2">
+            <button className="btn btn-outline-light" onClick={handleShowProfile}>
+              👤 Profile
+            </button>
+            <button className="btn btn-outline-light" onClick={() => navigate("/cart")}>
+              🛒 My Cart
+            </button>
+            <button
+              className="btn btn-outline-light"
+              onClick={() => {
+                localStorage.clear();
+                navigate("/login");
+              }}
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </nav>
 
       <div className="container mt-4">
         <h2 className="text-center mb-4">🧾 Drug List</h2>
@@ -100,7 +116,7 @@ const UserDashboard = () => {
         </div>
       </div>
 
-      {/* Product Detail Modal */}
+      {/* Drug Detail Modal */}
       {selectedDrug && (
         <Modal show={true} onHide={() => setSelectedDrug(null)}>
           <Modal.Header closeButton>
@@ -120,6 +136,37 @@ const UserDashboard = () => {
         </Modal>
       )}
 
+      {/* Profile Sidebar */}
+      <Offcanvas show={showProfile} onHide={handleCloseProfile} placement="end">
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>User Profile</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          {profileData ? (
+            <div className="text-start">
+              <p><strong>Name:</strong> {profileData.name}</p>
+              <p><strong>Email:</strong> {profileData.email}</p>
+              <p><strong>Mobile:</strong> {profileData.mobile}</p>
+              <p><strong>Gender:</strong> {profileData.gender}</p>
+              <p><strong>Date of Birth:</strong> {profileData.dob}</p>
+              <p><strong>Role:</strong> {profileData.role}</p>
+              <p><strong>Address:</strong></p>
+              {profileData.address ? (
+                <ul>
+                  <li>Street: {profileData.address.street}</li>
+                  <li>City: {profileData.address.city}</li>
+                  <li>State: {profileData.address.state}</li>
+                  <li>Zip: {profileData.address.zip}</li>
+                </ul>
+              ) : (
+                <p>No address available</p>
+              )}
+            </div>
+          ) : (
+            <p>Loading profile...</p>
+          )}
+        </Offcanvas.Body>
+      </Offcanvas>
     </>
   );
 };
