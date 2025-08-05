@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Added useNavigate for navigation
-import axios from "axios";
-import "../styles/Login.css";
-
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate(); // React Router hook for navigation
-=======
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../services/AuthService"; // New service file
@@ -26,7 +14,6 @@ const Login = () => {
     useEffect(() => {
     setForm({ emailOrName: "", password: "" });
   }, []);
->>>>>>> 2d2362a9391b4c4fc294f355fe4895055b42737f
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -39,45 +26,6 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
-<<<<<<< HEAD
-    if (!email || !password) {
-      setError("Both fields are required!");
-      return;
-    }
-
-    const loginData = {
-      email,
-      password,
-    };
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
-        loginData
-      );
-
-      // Check if the response status is 200 (success)
-      if (response.status === 200) {
-        const { token, role, email } = response.data;
-
-        // Store JWT token in localStorage
-        localStorage.setItem("token", token);
-        localStorage.setItem("role", role);
-        localStorage.setItem("email", email);
-
-        // Redirect based on the user's role
-        if (role === "USER") {
-          navigate("/user"); // Navigate to user page
-        } else if (role === "ADMIN") {
-          navigate("/admin"); // Navigate to admin page
-        }
-      } else {
-        setError("Invalid email or password");
-      }
-    } catch (err) {
-      console.error("Login error:", err);
-      setError("Invalid email or password");
-=======
     if (!form.emailOrName || !form.password) {
       alert("Both fields are required!");
       setIsLoading(false);
@@ -104,7 +52,6 @@ const Login = () => {
       alert("Invalid email/username or password.");
     } finally {
       setIsLoading(false);
->>>>>>> 2d2362a9391b4c4fc294f355fe4895055b42737f
     }
   };
 
@@ -117,36 +64,20 @@ const Login = () => {
             Please enter your credentials to login.
           </p>
 
-<<<<<<< HEAD
-          {error && <div className="alert alert-danger">{error}</div>}
-
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email
-=======
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="emailOrName" className="form-label">
                 Email or Username
->>>>>>> 2d2362a9391b4c4fc294f355fe4895055b42737f
               </label>
               <input
                 type="email"
                 className="form-control"
-<<<<<<< HEAD
-                id="email"
-                placeholder="Enter email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-=======
                 id="emailOrName"
                 name="emailOrName"
                 placeholder="Enter email or username"
                 value={form.emailOrName}
                 onChange={handleChange}
                 autoComplete="off"
->>>>>>> 2d2362a9391b4c4fc294f355fe4895055b42737f
                 required
               />
             </div>
@@ -169,17 +100,12 @@ const Login = () => {
             </div>
 
             <div className="mb-3">
-<<<<<<< HEAD
-              <button type="submit" className="btn btn-primary">
-                Login
-=======
               <button
                 type="submit"
                 className="btn btn-primary w-100"
                 disabled={isLoading}
               >
                 {isLoading ? "Logging in..." : "Login"}
->>>>>>> 2d2362a9391b4c4fc294f355fe4895055b42737f
               </button>
             </div>
           </form>
@@ -195,8 +121,6 @@ const Login = () => {
           </p>
         </div>
 
-<<<<<<< HEAD
-=======
         <div className="oauth-section">
           <p>Or login with:</p>
           <div className="oauth-buttons">
@@ -215,7 +139,6 @@ const Login = () => {
           </div>
         </div>
 
->>>>>>> 2d2362a9391b4c4fc294f355fe4895055b42737f
         <div className="info-side">
           <h3>Welcome Back!</h3>
           <p>We are glad to see you back!</p>
