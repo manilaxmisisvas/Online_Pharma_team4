@@ -1,12 +1,13 @@
 package com.team4.onlinepharma_backend.security;
 
-import com.team4.onlinepharma_backend.model.User;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
+import com.team4.onlinepharma_backend.model.User;
 
 public class CustomUserDetails implements UserDetails {
 
@@ -28,7 +29,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail(); 
+        return user.getEmail(); // used for login
     }
 
     @Override
@@ -49,5 +50,9 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return !user.isDisabled();
+    }
+
+    public User getUser() {
+        return user;
     }
 }

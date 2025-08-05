@@ -29,4 +29,9 @@ public class DrugOrderDao {
     public List<DrugOrder> getOrdersByUserId(Long userId) {
         return orderRepo.findByUserId(userId);
     }
+    
+    public void deleteOrder(Long orderId) {
+        orderRepo.deleteById(orderId);
+    }
+
 }

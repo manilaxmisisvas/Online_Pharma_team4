@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,10 @@ public class UserController {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    //http://localhost:8080/api/user/profile
     @GetMapping("/profile")
     public ResponseEntity<User> getOwnProfile(@AuthenticationPrincipal UserDetails userDetails) {
         String email = userDetails.getUsername();
@@ -34,6 +39,7 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    //http://localhost:8080/api/user/update
     @PutMapping("/update")
     public ResponseEntity<User> updateOwnProfile(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -47,9 +53,11 @@ public class UserController {
             user.setGender(updatedData.getGender());
             user.setDob(updatedData.getDob());
             user.setAddress(updatedData.getAddress());
+
             if (updatedData.getPassword() != null && !updatedData.getPassword().isEmpty()) {
-                user.setPassword(updatedData.getPassword());
+                user.setPassword(passwordEncoder.encode(updatedData.getPassword()));
             }
+
             User updatedUser = userDao.saveUser(user);
             return ResponseEntity.ok(updatedUser);
         } else {
@@ -57,6 +65,7 @@ public class UserController {
         }
     }
 
+    //http://localhost:8080/api/user/delete
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteOwnProfile(@AuthenticationPrincipal UserDetails userDetails) {
         String email = userDetails.getUsername();
