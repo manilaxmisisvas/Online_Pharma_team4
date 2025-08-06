@@ -63,7 +63,7 @@ const Admin = () => {
   const [productError, setProductError] = React.useState(null);
   const [productSuccessMessage, setProductSuccessMessage] =
     React.useState(null);
-
+  const [image, setImage] = useState(null);
   // Check token presence on mount
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -72,7 +72,6 @@ const Admin = () => {
   }, [navigate]);
 
   // --- Profile ---
-  // For edit mode
   const [isEditing, setIsEditing] = useState(false);
   const [editProfile, setEditProfile] = useState({});
 
@@ -91,7 +90,6 @@ const Admin = () => {
       setLoading(false);
     }
   };
-
   const handleLogout = () => {
     localStorage.clear();
     alert("Logged out!");
@@ -295,23 +293,49 @@ const Admin = () => {
       setProductError("Product name is required.");
       return;
     }
+
     try {
       if (selectedProduct) {
+        // Update existing product
         await updateDrug(selectedProduct.id, newProduct);
         setProductSuccessMessage("Product updated successfully!");
       } else {
-        await addDrug(newProduct);
+        // Upload new product with image
+        const data = new FormData();
+        data.append("file", image);
+        data.append("upload_preset", "your_preset");
+
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/your_id/image/upload",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+
+        const cloudData = await res.json();
+
+        const updatedProduct = { ...newProduct, imgurl: cloudData.secure_url };
+        setNewProduct(updatedProduct);
+
+        await uploadToDatabase(updatedProduct); // ensure DB upload finished
         setProductSuccessMessage("Product added successfully!");
       }
+
       setProductError(null);
       setIsProductModalOpen(false);
       fetchProducts();
+
       setTimeout(() => setProductSuccessMessage(null), 3000);
     } catch (err) {
       setProductError(
         err.response?.data?.message || err.message || "Failed to save product"
       );
     }
+  };
+
+  const uploadToDatabase = async (product) => {
+    await addDrug(product);
   };
 
   const handleDeleteProductById = async (id) => {
@@ -646,7 +670,7 @@ const Admin = () => {
           </div>
         </div>
 
-        {/* profile Section  */}
+        {/* Profile Section */}
         <div id="profile-section" className="row mt-5">
           <div className="col-md-4 mx-auto">
             <div className="card admin-card border-0 shadow-lg">
@@ -655,18 +679,33 @@ const Admin = () => {
                 <span className="fs-5">My Profile</span>
               </div>
               <div className="card-body text-center">
-                <button
-                  type="button"
-                  className="btn admin-btn-primary mt-2 rounded-pill"
-                  onClick={toggleProfile}
-                  disabled={loading}
-                >
-                  {loading
-                    ? "Loading..."
-                    : isProfileVisible
-                    ? "Hide Profile"
-                    : "My Profile"}
-                </button>
+                {loading ? (
+                  <button
+                    type="button"
+                    className="btn admin-btn-primary mt-2 rounded-pill"
+                    disabled
+                  >
+                    Loading...
+                  </button>
+                ) : isProfileVisible ? (
+                  <button
+                    key="hide"
+                    type="button"
+                    className="btn admin-btn-primary mt-2 rounded-pill"
+                    onClick={toggleProfile}
+                  >
+                    Hide Profile
+                  </button>
+                ) : (
+                  <button
+                    key="view"
+                    type="button"
+                    className="btn admin-btn-primary mt-2 rounded-pill"
+                    onClick={toggleProfile}
+                  >
+                    My Profile
+                  </button>
+                )}
 
                 {isProfileVisible && profile && (
                   <div ref={profileRef} className="mt-4 text-start">
@@ -1066,17 +1105,12 @@ const Admin = () => {
                 <div className="modal-body">
                   {/* Product add/edit form as in your code */}
                   <div className="mb-3">
-                    <label className="form-label">url</label>
+                    <label className="form-label">Image</label>
                     <input
-                      type="text"
+                      type="file"
                       className="form-control"
-                      value={newProduct.imgurl}
-                      onChange={(e) =>
-                        setNewProduct({
-                          ...newProduct,
-                          imgurl: e.target.value,
-                        })
-                      }
+                      // value={newProduct.imgurl}
+                      onChange={(e) => setImage(e.target.files[0])}
                     />
                   </div>
                   <div className="mb-3">
@@ -1109,6 +1143,7 @@ const Admin = () => {
                       type="number"
                       className="form-control"
                       value={newProduct.price}
+                      min="0"
                       onChange={(e) =>
                         setNewProduct({
                           ...newProduct,
@@ -1123,6 +1158,7 @@ const Admin = () => {
                       type="number"
                       className="form-control"
                       value={newProduct.quantity}
+                      min="0"
                       onChange={(e) =>
                         setNewProduct({
                           ...newProduct,
