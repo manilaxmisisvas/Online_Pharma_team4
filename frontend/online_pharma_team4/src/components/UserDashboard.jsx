@@ -55,6 +55,12 @@ const UserDashboard = () => {
             </form>
           </div>
 
+          <button
+            className="btn btn-outline-light"
+            onClick={() => navigate("/profile")}
+          >
+            👤 Profile
+          </button>
           <div className="d-flex gap-2">
             <button
               className="btn btn-outline-light"

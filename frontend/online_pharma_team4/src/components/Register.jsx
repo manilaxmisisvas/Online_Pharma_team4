@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/Register.css";
 
 const Register = () => {
-  // State hooks for each form field
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("USER");
@@ -16,7 +15,7 @@ const Register = () => {
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
-  const [postalCode, setPostalCode] = useState("");
+  const [zipcode, setZipcode] = useState("");
   const [country, setCountry] = useState("");
 
   const navigate = useNavigate();
@@ -26,17 +25,8 @@ const Register = () => {
 
     // Basic client side validation
     if (
-      !username ||
-      !email ||
-      !password ||
-      !dob ||
-      !gender ||
-      !mobile ||
-      !street ||
-      !city ||
-      !state ||
-      !postalCode ||
-      !country
+      !username || !email || !password || !dob || !gender || !mobile ||
+      !street || !city || !state || !zipcode || !country
     ) {
       alert("Please fill all required fields.");
       return;
@@ -46,7 +36,7 @@ const Register = () => {
       street,
       city,
       state,
-      postalCode,
+      zipcode,
       country,
     };
 
@@ -81,7 +71,7 @@ const Register = () => {
         setStreet("");
         setCity("");
         setState("");
-        setPostalCode("");
+        setZipcode("");
         setCountry("");
         navigate("/login");
       } else {
@@ -89,10 +79,7 @@ const Register = () => {
         alert("Registration failed: " + (err.message || JSON.stringify(err)));
       }
     } catch (error) {
-      alert(
-        "Registration failed: " +
-          (error.response?.data?.message || "Unknown error")
-      );
+      alert("Error: " + error.message);
     }
   };
 
@@ -101,19 +88,16 @@ const Register = () => {
       <div className="register-card">
         <div className="card-body">
           <h2>Create Account</h2>
-          <p className="text-secondary">
-            Please fill in the form to create an account.
-          </p>
+          <p className="text-secondary">Please fill in the form to create an account.</p>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="username">Username</label>
-              <input
-                type="text"
+              <input type="text"
                 id="username"
                 className="form-control"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={e => setUsername(e.target.value)}
                 required
                 autoFocus
               />
@@ -121,49 +105,44 @@ const Register = () => {
 
             <div className="mb-3">
               <label htmlFor="email">Email</label>
-              <input
-                type="email"
+              <input type="email"
                 id="email"
                 className="form-control"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
                 required
               />
             </div>
 
             <div className="mb-3">
               <label htmlFor="password">Password</label>
-              <input
-                type="password"
+              <input type="password"
                 id="password"
                 className="form-control"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 required
               />
             </div>
 
             <div className="mb-3">
               <label htmlFor="dob">Date of Birth</label>
-              <input
-                type="date"
+              <input type="date"
                 id="dob"
                 className="form-control"
                 value={dob}
-                onChange={(e) => setDob(e.target.value)}
+                onChange={e => setDob(e.target.value)}
                 required
               />
             </div>
 
             <div className="mb-3">
               <label htmlFor="gender">Gender</label>
-              <select
-                id="gender"
+              <select id="gender"
                 className="form-select"
                 value={gender}
-                onChange={(e) => setGender(e.target.value)}
-                required
-              >
+                onChange={e => setGender(e.target.value)}
+                required>
                 <option value="">Select gender</option>
                 <option value="MALE">Male</option>
                 <option value="FEMALE">Female</option>
@@ -173,12 +152,11 @@ const Register = () => {
 
             <div className="mb-3">
               <label htmlFor="mobile">Mobile</label>
-              <input
-                type="text"
+              <input type="text"
                 id="mobile"
                 className="form-control"
                 value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
+                onChange={e => setMobile(e.target.value)}
                 required
               />
             </div>
@@ -187,91 +165,77 @@ const Register = () => {
 
             <div className="mb-3">
               <label htmlFor="street">Street</label>
-              <input
-                type="text"
+              <input type="text"
                 id="street"
                 className="form-control"
                 value={street}
-                onChange={(e) => setStreet(e.target.value)}
+                onChange={e => setStreet(e.target.value)}
                 required
               />
             </div>
 
             <div className="mb-3">
               <label htmlFor="city">City</label>
-              <input
-                type="text"
+              <input type="text"
                 id="city"
                 className="form-control"
                 value={city}
-                onChange={(e) => setCity(e.target.value)}
+                onChange={e => setCity(e.target.value)}
                 required
               />
             </div>
 
             <div className="mb-3">
               <label htmlFor="state">State</label>
-              <input
-                type="text"
+              <input type="text"
                 id="state"
                 className="form-control"
                 value={state}
-                onChange={(e) => setState(e.target.value)}
+                onChange={e => setState(e.target.value)}
                 required
               />
             </div>
 
             <div className="mb-3">
-              <label htmlFor="postalCode">Postal Code</label>
-              <input
-                type="text"
-                id="postalCode"
+              <label htmlFor="zipcode">zipcode</label>
+              <input type="text"
+                id="zipcode"
                 className="form-control"
-                value={postalCode}
-                onChange={(e) => setPostalCode(e.target.value)}
+                value={zipcode}
+                onChange={e => setZipcode(e.target.value)}
                 required
               />
             </div>
 
             <div className="mb-3">
               <label htmlFor="country">Country</label>
-              <input
-                type="text"
+              <input type="text"
                 id="country"
                 className="form-control"
                 value={country}
-                onChange={(e) => setCountry(e.target.value)}
+                onChange={e => setCountry(e.target.value)}
                 required
               />
             </div>
 
             <div className="mb-3">
               <label htmlFor="role">Role</label>
-              <select
-                id="role"
+              <select id="role"
                 className="form-select"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                required
-              >
+                value={role}P
+                onChange={e => setRole(e.target.value)}
+                required>
                 <option value="USER">User</option>
                 <option value="ADMIN">Admin</option>
               </select>
             </div>
 
-            <button type="submit" className="btn btn-primary">
-              Register
-            </button>
+            <button type="submit" className="btn btn-primary">Register</button>
           </form>
 
           <p className="text-secondary" style={{ textAlign: "center" }}>
             Already have an account?{" "}
-            <Link
-              to="/login"
-              className="text-primary fw-semibold text-decoration-none"
-            >
-              Login here
-            </Link>
+            <Link to="/login" className="text-primary fw-semibold text-decoration-none">Login here</Link>
           </p>
         </div>
       </div>
