@@ -44,6 +44,9 @@ export const banUnbanDrug = (id, banned) =>
     params: { banned },
     headers: getAuthHeaders(),
   });
-
+export const updateAdminProfile = (profileData) =>
+  axios.put(`${API_BASE_URL}/profile`, profileData, {
+    headers: getAuthHeaders(),
+  });
 export const deleteDrugById = (id) =>
   axios.delete(`${API_BASE_URL}/drugs/${id}`, { headers: getAuthHeaders() });
