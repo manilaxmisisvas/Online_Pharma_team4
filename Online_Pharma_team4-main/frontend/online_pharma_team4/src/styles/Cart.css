@@ -1,0 +1,23 @@
+Extending existing cart.css
+.cart-container {
+  padding: 40px;
+  max-width: 900px;
+  margin: auto;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+.order-button {
+  padding: 10px 20px;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.order-button:hover {
+  background-color: #1b5e20;
+}

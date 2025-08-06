@@ -1,0 +1,136 @@
+/* Background setup */
+.register-bg {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', Arial, sans-serif;
+  padding: 30px;
+  background: linear-gradient(to right, #e0f2fe, #f8fafc);
+  box-sizing: border-box;
+}
+
+/* Card container */
+.register-card {
+  width: 100%;
+  max-width: 500px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 40px 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  box-sizing: border-box;
+}
+
+/* Heading styles */
+h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.text-secondary {
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* Labels */
+label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Inputs and selects */
+.form-control,
+.form-select {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease-in-out, background-color 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  outline: none;
+  background-color: #fff;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Button */
+.btn-primary {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 20px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #1e40af;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 768px) {
+  .register-card {
+    padding: 32px 24px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .form-control,
+  .form-select {
+    font-size: 13px;
+  }
+
+  .btn-primary {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 480px) {
+  .register-card {
+    border-radius: 8px;
+    padding: 28px 20px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .text-secondary {
+    font-size: 13px;
+  }
+
+  .form-control,
+  .form-select {
+    font-size: 12.5px;
+    padding: 10px 12px;
+  }
+
+  .btn-primary {
+    font-size: 13px;
+    padding: 10px;
+  }
+}
