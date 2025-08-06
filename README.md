@@ -120,11 +120,6 @@ npm start
 
 You can test backend APIs using Postman.
 
-### 📥 Download
-
-* 🔗 [Postman Collection (.json)](backend/onlinepharma_backend/src/main/resources/postman/OnlinePharmacy.postman_collection.json)
-* 🔗 [Environment File (.json)](backend/onlinepharma_backend/src/main/resources/postman/OnlinePharmacyEnvironment.postman_environment.json)
-
 ### 🛠 Usage
 
     1. Open [Postman](https://www.postman.com/downloads/)
