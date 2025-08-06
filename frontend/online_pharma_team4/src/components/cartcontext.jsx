@@ -1,4 +1,3 @@
-// src/components/cartcontext.jsx
 import React, { createContext, useContext, useState } from "react";
 
 // Create context
@@ -26,12 +25,16 @@ export const CartProvider = ({ children }) => {
 
   // Update item quantity
   const updateCart = (id, quantity) => {
+  if (quantity < 1) {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  } else {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
         item.id === id ? { ...item, quantity } : item
       )
     );
-  };
+  }
+};
 
 
   // Remove item from cart

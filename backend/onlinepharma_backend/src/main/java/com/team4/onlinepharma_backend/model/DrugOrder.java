@@ -2,14 +2,16 @@ package com.team4.onlinepharma_backend.model;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
+
 
 @Entity
 public class DrugOrder {
@@ -29,6 +31,19 @@ public class DrugOrder {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(name = "upi_id")
+private String upiId;
+
+public String getUpiId() {
+    return upiId;
+}
+
+public void setUpiId(String upiId) {
+    this.upiId = upiId;
+}
+
+
 
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }

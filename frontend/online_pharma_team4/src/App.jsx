@@ -9,21 +9,22 @@ import OAuthSuccess from "./services/OAuthSuccess.jsx";
 import Cart from "./components/Cart.jsx";
 import { CartProvider } from "./components/cartcontext.jsx"; // ✅ add this import
 import PaymentPage from "./components/PaymentPage.jsx";
+import UserProfile from "./components/UserProfile.jsx";
 
 
 function App() {
   return (
-    <CartProvider> {/* ✅ wrap everything with cart context */}
+    <CartProvider> 
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/user" element={<UserDashboard />} />
-
-          <Route path="/payment" element={<PaymentPage />} /> {/* new route */}
+          <Route path="/payment" element={<PaymentPage />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/oauth-success" element={<OAuthSuccess />} />
-          <Route path="/cart" element={<Cart />} /> {/* lowercase route */}
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </BrowserRouter>
     </CartProvider>

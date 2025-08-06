@@ -3,7 +3,7 @@ import { useCart } from "./cartcontext";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { cartItems, removeFromCart } = useCart();
+  const { cartItems, removeFromCart, updateCart } = useCart();
   const navigate = useNavigate();
 
   const total = cartItems.reduce(
@@ -11,8 +11,31 @@ const Cart = () => {
     0
   );
 
+  // const goToPayment = () => {
+  //   navigate("/payment", { state: { total } }); // pass total using state
+  // };
+
   const goToPayment = () => {
-    navigate("/payment", { state: { total } }); // pass total using state
+  const drugsForOrder = cartItems.map(({ id, quantity }) => ({
+    id,
+    quantity,
+  }));
+  navigate("/payment", {
+    state: { total, drugs: drugsForOrder },
+  });
+};
+
+
+  const increaseQty = (id, currentQty) => {
+    updateCart(id, currentQty + 1);
+  };
+
+  const decreaseQty = (id, currentQty) => {
+    if (currentQty > 1) {
+      updateCart(id, currentQty - 1);
+    } else {
+      removeFromCart(id); // or updateCart(id, 0)
+    }
   };
 
   return (
@@ -46,7 +69,23 @@ const Cart = () => {
                   <td>{index + 1}</td>
                   <td>{item.name}</td>
                   <td>₹{item.price}</td>
-                  <td>{item.quantity}</td>
+                  <td>
+                    <div className="d-flex justify-content-center align-items-center">
+                      <button
+                        className="btn btn-sm btn-outline-secondary me-1"
+                        onClick={() => decreaseQty(item.id, item.quantity)}
+                      >
+                        −
+                      </button>
+                      <span className="px-2">{item.quantity}</span>
+                      <button
+                        className="btn btn-sm btn-outline-secondary ms-1"
+                        onClick={() => increaseQty(item.id, item.quantity)}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </td>
                   <td>
                     <button
                       className="btn btn-danger btn-sm"

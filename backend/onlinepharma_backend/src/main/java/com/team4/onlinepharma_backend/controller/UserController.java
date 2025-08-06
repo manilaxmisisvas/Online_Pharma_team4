@@ -54,6 +54,7 @@ public class UserController {
             user.setDob(updatedData.getDob());
             user.setAddress(updatedData.getAddress());
 
+
             if (updatedData.getPassword() != null && !updatedData.getPassword().isEmpty()) {
                 user.setPassword(passwordEncoder.encode(updatedData.getPassword()));
             }
