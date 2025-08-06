@@ -57,7 +57,7 @@ Make sure the following are installed:
 ### 📂 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/online-pharmacy-portal.git
+git clone https://github.com/manilaxmisisvas/Online_Pharma_team4.git
 cd onlinepharma_backend
 ````
 
@@ -189,15 +189,18 @@ You can test backend APIs using Postman.
 
 ### Register Page
 
-![Register Page](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754390476/v66nvivy2xxtp7ofpyp8.png)
+![Register Page](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754476948/kqp935fl52yaksbcjbwk.png)
 
 ### Login Page
 
-![Login Page](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754390597/ortnh7vewi8y1e9iccsg.png)
+![Login Page](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754477077/vbvnosspg4pnmv3jewuq.png)
 
 ### User Dashboard
 
-![User Dashboard](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754390823/tqo8j4cuo3ckhfwnt3lz.png)
+![User Dashboard](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754477474/es82xrx1w5nqbetp20lo.png)
+
+### User Profile
+![User Profile](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754477599/ikmjma5bvmhjqnhymfny.png)
 
 ### Admin Dashboard
 
@@ -215,9 +218,13 @@ You can test backend APIs using Postman.
 
 ![User DB](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754391168/q2zeahvhj6bwneadjnab.jpg)
 
-### Drugs Table (Database)
+### Drug Table (Database)
 
 ![Drug DB](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754391205/udpevnv56gel7xjb4euk.jpg)
+
+### Drug Order Table (Database)
+
+![Drug_Order DB](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754478293/miu08ocfuwfgwfhcerux.png)
 
 ---
 
