@@ -141,4 +141,36 @@ public class AdminController {
 //            return ResponseEntity.notFound().build();
 //        }
 //    }
+    
+    
+    
+    
+ // http://localhost:8080/api/admin/profile
+    @PutMapping("/profile")
+    public ResponseEntity<User> updateAdminProfile(@RequestBody User updatedData) {
+        // Get the email from localStorage (frontend sends it in request body or Authorization token)
+        String email = updatedData.getEmail();
+        
+        Optional<User> userOpt = userDao.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setName(updatedData.getName());
+            user.setMobile(updatedData.getMobile());
+            user.setGender(updatedData.getGender());
+            user.setDob(updatedData.getDob());
+            user.setAddress(updatedData.getAddress());
+
+            return ResponseEntity.ok(userDao.saveUser(user));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    
+    
+    
+    
+    
+    
+    
 }

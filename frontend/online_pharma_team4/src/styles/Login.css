@@ -1,35 +1,6 @@
 .login-bg {
   display: flex;
   justify-content: center;
-<<<<<<< HEAD
-  align-items: center;
-  height: 100vh;
-  background-color: #f8f9fa; /* Light background color */
-}
-
-.login-card {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px; /* Limit the width of the form */
-  padding: 30px;
-  box-sizing: border-box;
-}
-
-.info-side {
-  text-align: center;
-  margin-top: 20px;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.text-secondary {
-  text-align: center;
-=======
   align-items: flex-start; /* Change from center to flex-start to avoid vertical clipping */
   padding-top: 40px; /* Add padding space at the top */
 }
@@ -83,7 +54,6 @@ input.form-control {
   padding: 10px;
   width: 100%;
   box-sizing: border-box;
->>>>>>> 2d2362a9391b4c4fc294f355fe4895055b42737f
 }
 
 .btn-primary {
