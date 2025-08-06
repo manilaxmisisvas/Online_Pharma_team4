@@ -202,6 +202,9 @@ You can test backend APIs using Postman.
 ### User Profile
 ![User Profile](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754477599/ikmjma5bvmhjqnhymfny.png)
 
+### Edit User Profile
+[Edit_User_Profile](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754478786/bldfdsnd5ixoi9xhtuvl.png)
+
 ### Admin Dashboard
 
 ![Admin Dashboard](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754390866/b3nnxqtbsfherzoxazlt.png)
@@ -220,7 +223,7 @@ You can test backend APIs using Postman.
 
 ### Drug Table (Database)
 
-![Drug DB](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754391205/udpevnv56gel7xjb4euk.jpg)
+![Drug DB](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754479603/bdh6y4ebgkuyqgx1uxso.png)
 
 ### Drug Order Table (Database)
 
