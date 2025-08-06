@@ -87,7 +87,12 @@ const UserDashboard = () => {
           {filteredDrugs.map((drug) => (
             <div key={drug.id} className="col-md-4 mb-4">
               <div className="card shadow-sm h-100 text-center">
-                <img src="..." className="card-img-top" alt={drug.name} />
+                <img
+                  src={drug.imgurl}
+                  style={{ width: "250px", margin: "auto" }}
+                  className="card-img-top"
+                  alt={drug.name}
+                />
                 <div
                   className="p-3 d-flex flex-column justify-content-between"
                   style={{ flexGrow: 1 }}
