@@ -189,35 +189,35 @@ You can test backend APIs using Postman.
 
 ### Register Page
 
-![Register Page](backend/onlinepharma_backend/src/main/resources/Readme_Images/registration1.png)
+![Register Page](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754390476/v66nvivy2xxtp7ofpyp8.png)
 
 ### Login Page
 
-![Login Page](backend/onlinepharma_backend/src/main/resources/Readme_Images/Login1.png)
+![Login Page](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754390597/ortnh7vewi8y1e9iccsg.png)
 
 ### User Dashboard
 
-![User Dashboard](backend/onlinepharma_backend/src/main/resources/Readme_Images/UserDashboard1.png)
+![User Dashboard](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754390823/tqo8j4cuo3ckhfwnt3lz.png)
 
 ### Admin Dashboard
 
-![Admin Dashboard](backend/onlinepharma_backend/src/main/resources/Readme_Images/AdminDashboard.png)
+![Admin Dashboard](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754390866/b3nnxqtbsfherzoxazlt.png)
 
 ### View Products
 
-![View Products](backend/onlinepharma_backend/src/main/resources/Readme_Images/ViewProducts.png)
+![View Products](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754391253/ilpmkyf0masoaeuyxkjf.png)
 
 ### My Cart
 
-![My Cart](backend/onlinepharma_backend/src/main/resources/Readme_Images/cart.png)
+![My Cart](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754390962/hcbkirgs2g20pu0zpuzq.png)
 
 ### User Table (Database)
 
-![User DB](backend/onlinepharma_backend/src/main/resources/Readme_Images/UserDB.jpg)
+![User DB](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754391168/q2zeahvhj6bwneadjnab.jpg)
 
 ### Drugs Table (Database)
 
-![Drug DB](backend/onlinepharma_backend/src/main/resources/Readme_Images/DrugDB.jpg)
+![Drug DB](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754391205/udpevnv56gel7xjb4euk.jpg)
 
 ---
 

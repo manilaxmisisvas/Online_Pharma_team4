@@ -35,7 +35,7 @@ const PaymentPage = () => {
         return;
       }
       const response = await axios.get("http://localhost:8080/api/user/profile", {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization:` Bearer ${token}` },
       });
       setUser(response.data);
     } catch (error) {
@@ -64,10 +64,11 @@ const PaymentPage = () => {
       description: "Order Payment",
       handler: async function (response) {
         try {
+          const upiId=response.razorpay_payment_id;
           await axios.post(
             `http://localhost:8080/api/user/${user.id}/orders`,
-            { drugs }, // send drugs with id and quantity
-            { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+            { drugs ,upiId}, // send drugs with id and quantity
+            { headers: { Authorization:` Bearer ${localStorage.getItem("token")}` } }
           );
 
           alert("✅ Payment successful. Order saved!");

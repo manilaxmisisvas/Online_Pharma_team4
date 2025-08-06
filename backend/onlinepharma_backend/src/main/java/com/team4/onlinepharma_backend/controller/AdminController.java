@@ -112,12 +112,6 @@ public class AdminController {
     }
 
     
-//   // http://localhost:8080/api/admin/drugs
-//    @GetMapping("/drugs")
-//    public ResponseEntity<List<Drug>> getAllDrugs() {
-//        List<Drug> drugs = drugDao.getAllDrugs();
-//        return ResponseEntity.ok(drugs);
-//    }
 
     //http://localhost:8080/api/admin/drugs/{id}
     @DeleteMapping("/drugs/{id}")
@@ -130,19 +124,6 @@ public class AdminController {
             return ResponseEntity.notFound().build();
         }
     }
-
-//    // http://localhost:8080/api/admin/drugs/{id}
-//    @PutMapping("/drugs/{id}")
-//    public ResponseEntity<Drug> updateDrug(@PathVariable Long id, @RequestBody Drug updatedDrug) {
-//        Drug drug = drugDao.updateDrug(id, updatedDrug);
-//        if (drug != null) {
-//            return ResponseEntity.ok(drug);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-
-
 
 
  @PutMapping("/profile")
