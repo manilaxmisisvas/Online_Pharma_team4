@@ -112,12 +112,6 @@ public class AdminController {
     }
 
     
-//   // http://localhost:8080/api/admin/drugs
-//    @GetMapping("/drugs")
-//    public ResponseEntity<List<Drug>> getAllDrugs() {
-//        List<Drug> drugs = drugDao.getAllDrugs();
-//        return ResponseEntity.ok(drugs);
-//    }
 
     //http://localhost:8080/api/admin/drugs/{id}
     @DeleteMapping("/drugs/{id}")
@@ -131,14 +125,25 @@ public class AdminController {
         }
     }
 
-//    // http://localhost:8080/api/admin/drugs/{id}
-//    @PutMapping("/drugs/{id}")
-//    public ResponseEntity<Drug> updateDrug(@PathVariable Long id, @RequestBody Drug updatedDrug) {
-//        Drug drug = drugDao.updateDrug(id, updatedDrug);
-//        if (drug != null) {
-//            return ResponseEntity.ok(drug);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+
+ @PutMapping("/profile")
+    public ResponseEntity<User> updateAdminProfile(@RequestBody User updatedData) {
+        // Get the email from localStorage (frontend sends it in request body or Authorization token)
+        String email = updatedData.getEmail();
+        
+        Optional<User> userOpt = userDao.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setName(updatedData.getName());
+            user.setMobile(updatedData.getMobile());
+            user.setGender(updatedData.getGender());
+            user.setDob(updatedData.getDob());
+            user.setAddress(updatedData.getAddress());
+
+            return ResponseEntity.ok(userDao.saveUser(user));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

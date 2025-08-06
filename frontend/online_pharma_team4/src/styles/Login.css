@@ -1,13 +1,17 @@
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #e0eafc, #cfdef3);
+.login-bg {
+  min-height: 100vh; /* full viewport height */
   display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Change from center to flex-start to avoid vertical clipping */
-  padding-top: 40px; /* Add padding space at the top */
+  align-items: center; /* vertical center */
+  justify-content: center; /* horizontal center */
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px; /* controls form width */
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
 }
 
 .login-container {

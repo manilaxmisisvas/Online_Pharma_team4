@@ -28,7 +28,7 @@ public class UserDao {
     }
 
     public Optional<User> findByEmailOrName(String input) {
-        return userRepository.findByEmail(input)
+        return userRepository.findByEmailOrName(input)
                 .or(() -> userRepository.findByName(input));
     }
 

@@ -11,6 +11,7 @@ import {
   getAllDrugs,
   addDrug,
   updateDrug,
+  updateAdminProfile,
   deleteDrugById,
 } from "../services/AdminService";
 import "../styles/Admin.css";
@@ -49,6 +50,7 @@ const Admin = () => {
   const [selectedProduct, setSelectedProduct] = React.useState(null);
   const [selectedProductId, setSelectedProductId] = React.useState("");
   const [newProduct, setNewProduct] = React.useState({
+    imgurl: "",
     name: "",
     description: "",
     price: 0,
@@ -59,7 +61,8 @@ const Admin = () => {
     rating: 0.0,
   });
   const [productError, setProductError] = React.useState(null);
-  const [productSuccessMessage, setProductSuccessMessage] = React.useState(null);
+  const [productSuccessMessage, setProductSuccessMessage] =
+    React.useState(null);
 
   // Check token presence on mount
   useEffect(() => {
@@ -69,6 +72,25 @@ const Admin = () => {
   }, [navigate]);
 
   // --- Profile ---
+  // For edit mode
+  const [isEditing, setIsEditing] = useState(false);
+  const [editProfile, setEditProfile] = useState({});
+
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await updateAdminProfile(editProfile);
+      setProfile(res.data); // update state with new profile
+      setIsEditing(false); // close edit mode
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to update profile");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.clear();
@@ -117,7 +139,9 @@ const Admin = () => {
       setUsers(response.data || []);
       setUserError(null);
     } catch (err) {
-      setUserError(err.response?.data?.message || err.message || "Failed to fetch users");
+      setUserError(
+        err.response?.data?.message || err.message || "Failed to fetch users"
+      );
     }
   };
 
@@ -177,7 +201,9 @@ const Admin = () => {
       fetchUsers();
       setTimeout(() => setUserSuccessMessage(null), 3000);
     } catch (err) {
-      setUserError(err.response?.data?.message || err.message || "Failed to save user");
+      setUserError(
+        err.response?.data?.message || err.message || "Failed to save user"
+      );
     }
   };
 
@@ -189,18 +215,26 @@ const Admin = () => {
       fetchUsers();
       setTimeout(() => setUserSuccessMessage(null), 3000);
     } catch (err) {
-      setUserError(err.response?.data?.message || err.message || "Failed to delete user");
+      setUserError(
+        err.response?.data?.message || err.message || "Failed to delete user"
+      );
     }
   };
 
   const handleDisableUser = async (id, disabled) => {
     try {
       await disableUserById(id);
-      setUserSuccessMessage(disabled ? "User disabled successfully!" : "User enabled successfully!");
+      setUserSuccessMessage(
+        disabled ? "User disabled successfully!" : "User enabled successfully!"
+      );
       fetchUsers();
       setTimeout(() => setUserSuccessMessage(null), 3000);
     } catch (err) {
-      setUserError(err.response?.data?.message || err.message || "Failed to update user status");
+      setUserError(
+        err.response?.data?.message ||
+          err.message ||
+          "Failed to update user status"
+      );
     }
   };
 
@@ -212,7 +246,9 @@ const Admin = () => {
       setProducts(response.data || []);
       setProductError(null);
     } catch (err) {
-      setProductError(err.response?.data?.message || err.message || "Failed to fetch products");
+      setProductError(
+        err.response?.data?.message || err.message || "Failed to fetch products"
+      );
     }
   };
 
@@ -223,6 +259,7 @@ const Admin = () => {
   const openAddProductModal = () => {
     setSelectedProduct(null);
     setNewProduct({
+      imgurl: "",
       name: "",
       description: "",
       price: 0,
@@ -239,6 +276,7 @@ const Admin = () => {
   const openEditProductModal = (product) => {
     setSelectedProduct(product);
     setNewProduct({
+      imgurl: product.imgurl || "",
       name: product.name || "",
       description: product.description || "",
       price: product.price || 0,
@@ -270,19 +308,24 @@ const Admin = () => {
       fetchProducts();
       setTimeout(() => setProductSuccessMessage(null), 3000);
     } catch (err) {
-      setProductError(err.response?.data?.message || err.message || "Failed to save product");
+      setProductError(
+        err.response?.data?.message || err.message || "Failed to save product"
+      );
     }
   };
 
   const handleDeleteProductById = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this product?")) return;
+    if (!window.confirm("Are you sure you want to delete this product?"))
+      return;
     try {
       await deleteDrugById(id);
       setProductSuccessMessage("Product deleted successfully!");
       fetchProducts();
       setTimeout(() => setProductSuccessMessage(null), 3000);
     } catch (err) {
-      setProductError(err.response?.data?.message || err.message || "Failed to delete product");
+      setProductError(
+        err.response?.data?.message || err.message || "Failed to delete product"
+      );
     }
   };
 
@@ -315,6 +358,7 @@ const Admin = () => {
     setSelectedProduct(product || null);
     if (product) {
       setNewProduct({
+        imgurl: product.imgurl || "",
         name: product.name || "",
         description: product.description || "",
         price: product.price || 0,
@@ -336,7 +380,10 @@ const Admin = () => {
     if (!isUserModalOpen) return;
 
     function handleClickOutside(event) {
-      if (userModalRef.current && !userModalRef.current.contains(event.target)) {
+      if (
+        userModalRef.current &&
+        !userModalRef.current.contains(event.target)
+      ) {
         setIsUserModalOpen(false);
       }
     }
@@ -351,7 +398,10 @@ const Admin = () => {
     if (!isProductModalOpen) return;
 
     function handleClickOutside(event) {
-      if (productModalRef.current && !productModalRef.current.contains(event.target)) {
+      if (
+        productModalRef.current &&
+        !productModalRef.current.contains(event.target)
+      ) {
         setIsProductModalOpen(false);
       }
     }
@@ -412,7 +462,12 @@ const Admin = () => {
       </nav>
 
       <div className="container pb-3">
-        <h1 className="text-center mt-5 display-4 fw-bold text-primary" id="welcome-admin">Welcome, Admin!</h1>
+        <h1
+          className="text-center mt-5 display-4 fw-bold text-primary"
+          id="welcome-admin"
+        >
+          Welcome, Admin!
+        </h1>
 
         {/* Success and error messages */}
         {(userSuccessMessage || productSuccessMessage) && (
@@ -487,7 +542,9 @@ const Admin = () => {
                   <button
                     type="button"
                     className="btn admin-btn-warning flex-fill"
-                    onClick={() => selectedUser && openEditUserModal(selectedUser)}
+                    onClick={() =>
+                      selectedUser && openEditUserModal(selectedUser)
+                    }
                     disabled={!selectedUser}
                   >
                     Edit User
@@ -495,7 +552,9 @@ const Admin = () => {
                   <button
                     type="button"
                     className="btn admin-btn-danger flex-fill"
-                    onClick={() => selectedUser && handleDeleteUser(selectedUser.id)}
+                    onClick={() =>
+                      selectedUser && handleDeleteUser(selectedUser.id)
+                    }
                     disabled={!selectedUser}
                   >
                     Delete User
@@ -504,7 +563,8 @@ const Admin = () => {
                     type="button"
                     className="btn admin-btn-secondary flex-fill"
                     onClick={() =>
-                      selectedUser && handleDisableUser(selectedUser.id, !selectedUser.disabled)
+                      selectedUser &&
+                      handleDisableUser(selectedUser.id, !selectedUser.disabled)
                     }
                     disabled={!selectedUser}
                   >
@@ -562,7 +622,9 @@ const Admin = () => {
                   <button
                     type="button"
                     className="btn admin-btn-warning flex-fill"
-                    onClick={() => selectedProduct && openEditProductModal(selectedProduct)}
+                    onClick={() =>
+                      selectedProduct && openEditProductModal(selectedProduct)
+                    }
                     disabled={!selectedProduct}
                   >
                     Edit Product
@@ -570,7 +632,10 @@ const Admin = () => {
                   <button
                     type="button"
                     className="btn admin-btn-danger flex-fill"
-                    onClick={() => selectedProduct && handleDeleteProductById(selectedProduct.id)}
+                    onClick={() =>
+                      selectedProduct &&
+                      handleDeleteProductById(selectedProduct.id)
+                    }
                     disabled={!selectedProduct}
                   >
                     Delete Product
@@ -581,12 +646,12 @@ const Admin = () => {
           </div>
         </div>
 
-        {/* Profile Section */}
+        {/* profile Section  */}
         <div id="profile-section" className="row mt-5">
-          <div className="col-md-6 mx-auto">
+          <div className="col-md-4 mx-auto">
             <div className="card admin-card border-0 shadow-lg">
               <div className="card-header admin-cardheader-profile d-flex align-items-center">
-                <i className="bi bi-person-circle me-2 fs-4" />
+                <i className="bi bi-box-arrow-right me-2 fs-4" />
                 <span className="fs-5">My Profile</span>
               </div>
               <div className="card-body text-center">
@@ -596,44 +661,155 @@ const Admin = () => {
                   onClick={toggleProfile}
                   disabled={loading}
                 >
-                  {loading ? "Loading..." : isProfileVisible ? "Hide Profile" : "View Profile"}
+                  {loading
+                    ? "Loading..."
+                    : isProfileVisible
+                    ? "Hide Profile"
+                    : "My Profile"}
                 </button>
-
-                {error && <p className="text-danger mt-3">{error}</p>}
 
                 {isProfileVisible && profile && (
                   <div ref={profileRef} className="mt-4 text-start">
-                    <p>
-                      <strong>Name:</strong> {profile.name}
-                    </p>
-                    <p>
-                      <strong>Email:</strong> {profile.email}
-                    </p>
-                    <p>
-                      <strong>Role:</strong> {profile.role}
-                    </p>
-                    <p>
-                      <strong>Mobile:</strong> {profile.mobile}
-                    </p>
-                    <p>
-                      <strong>Date of Birth:</strong>{" "}
-                      {profile.dob ? new Date(profile.dob).toLocaleDateString() : "N/A"}
-                    </p>
-                    <p>
-                      <strong>Gender:</strong> {profile.gender || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Status:</strong> {profile.disabled ? "Disabled" : "Active"}
-                    </p>
-                    {profile.address && (
+                    {isEditing ? (
+                      <form onSubmit={handleUpdateProfile}>
+                        <div className="mb-2">
+                          <label>
+                            <strong>Name:</strong>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={editProfile.name || ""}
+                            onChange={(e) =>
+                              setEditProfile({
+                                ...editProfile,
+                                name: e.target.value,
+                              })
+                            }
+                            required
+                          />
+                        </div>
+
+                        <div className="mb-2">
+                          <label>
+                            <strong>Email:</strong>
+                          </label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            value={editProfile.email || ""}
+                            onChange={(e) =>
+                              setEditProfile({
+                                ...editProfile,
+                                email: e.target.value,
+                              })
+                            }
+                            required
+                          />
+                        </div>
+
+                        <div className="mb-2">
+                          <label>
+                            <strong>Mobile:</strong>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={editProfile.mobile || ""}
+                            onChange={(e) =>
+                              setEditProfile({
+                                ...editProfile,
+                                mobile: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+
+                        <div className="mb-2">
+                          <label>
+                            <strong>Date of Birth:</strong>
+                          </label>
+                          <input
+                            type="date"
+                            className="form-control"
+                            value={editProfile.dob || ""}
+                            onChange={(e) =>
+                              setEditProfile({
+                                ...editProfile,
+                                dob: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+
+                        <div className="mb-2">
+                          <label>
+                            <strong>Gender:</strong>
+                          </label>
+                          <select
+                            className="form-control"
+                            value={editProfile.gender || ""}
+                            onChange={(e) =>
+                              setEditProfile({
+                                ...editProfile,
+                                gender: e.target.value,
+                              })
+                            }
+                          >
+                            <option value="">Select</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                          </select>
+                        </div>
+
+                        <button type="submit" className="btn btn-success mt-3">
+                          Save Changes
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-secondary mt-3 ms-2"
+                          onClick={() => setIsEditing(false)}
+                        >
+                          Cancel
+                        </button>
+                      </form>
+                    ) : (
                       <>
                         <p>
-                          <strong>Address:</strong>
+                          <strong>Name:</strong> {profile.name}
                         </p>
                         <p>
-                          {profile.address.street || ""} {profile.address.city || ""},{" "}
-                          {profile.address.state || ""} {profile.address.zipcode || ""}
+                          <strong>Email:</strong> {profile.email}
                         </p>
+                        <p>
+                          <strong>Role:</strong> {profile.role}
+                        </p>
+                        <p>
+                          <strong>Mobile:</strong> {profile.mobile}
+                        </p>
+                        <p>
+                          <strong>Date of Birth:</strong>{" "}
+                          {profile.dob
+                            ? new Date(profile.dob).toLocaleDateString()
+                            : "N/A"}
+                        </p>
+                        <p>
+                          <strong>Gender:</strong> {profile.gender || "N/A"}
+                        </p>
+                        <p>
+                          <strong>Status:</strong>{" "}
+                          {profile.disabled ? "Disabled" : "Active"}
+                        </p>
+
+                        <button
+                          className="btn btn-warning mt-3"
+                          onClick={() => {
+                            setEditProfile(profile);
+                            setIsEditing(true);
+                          }}
+                        >
+                          Edit Profile
+                        </button>
                       </>
                     )}
                   </div>
@@ -673,7 +849,9 @@ const Admin = () => {
             <div className="modal-dialog" ref={userModalRef}>
               <div className="modal-content">
                 <div className="modal-header admin-cardheader-users">
-                  <h5 className="modal-title">{selectedUser ? "Edit User" : "Add User"}</h5>
+                  <h5 className="modal-title">
+                    {selectedUser ? "Edit User" : "Add User"}
+                  </h5>
                   <button
                     type="button"
                     className="btn-close"
@@ -696,7 +874,9 @@ const Admin = () => {
                       type="email"
                       className="form-control"
                       value={newUser.email}
-                      onChange={(e) => handleUserChange("email", e.target.value)}
+                      onChange={(e) =>
+                        handleUserChange("email", e.target.value)
+                      }
                       disabled={!!selectedUser} // Disable editing email on update
                     />
                   </div>
@@ -715,7 +895,9 @@ const Admin = () => {
                       type="text"
                       className="form-control"
                       value={newUser.mobile}
-                      onChange={(e) => handleUserChange("mobile", e.target.value)}
+                      onChange={(e) =>
+                        handleUserChange("mobile", e.target.value)
+                      }
                     />
                   </div>
                   <div className="mb-3">
@@ -724,7 +906,9 @@ const Admin = () => {
                       type="text"
                       className="form-control"
                       value={newUser.gender}
-                      onChange={(e) => handleUserChange("gender", e.target.value)}
+                      onChange={(e) =>
+                        handleUserChange("gender", e.target.value)
+                      }
                     />
                   </div>
                   <div className="mb-3">
@@ -742,7 +926,9 @@ const Admin = () => {
                       id="disabled"
                       className="form-check-input"
                       checked={newUser.disabled}
-                      onChange={(e) => handleUserChange("disabled", e.target.checked)}
+                      onChange={(e) =>
+                        handleUserChange("disabled", e.target.checked)
+                      }
                     />
                     <label htmlFor="disabled" className="form-check-label">
                       Disabled
@@ -809,7 +995,11 @@ const Admin = () => {
                             <td>{user.role}</td>
                             <td>{user.mobile || "N/A"}</td>
                             <td>{user.gender || "N/A"}</td>
-                            <td>{user.dob ? new Date(user.dob).toLocaleDateString() : "N/A"}</td>
+                            <td>
+                              {user.dob
+                                ? new Date(user.dob).toLocaleDateString()
+                                : "N/A"}
+                            </td>
                             <td>{user.disabled ? "Yes" : "No"}</td>
                             <td>
                               <button
@@ -826,7 +1016,9 @@ const Admin = () => {
                               </button>
                               <button
                                 className="btn admin-btn-secondary btn-sm ms-2"
-                                onClick={() => handleDisableUser(user.id, !user.disabled)}
+                                onClick={() =>
+                                  handleDisableUser(user.id, !user.disabled)
+                                }
                               >
                                 {user.disabled ? "Enable" : "Disable"}
                               </button>
@@ -862,7 +1054,9 @@ const Admin = () => {
             <div className="modal-dialog" ref={productModalRef}>
               <div className="modal-content">
                 <div className="modal-header admin-cardheader-products">
-                  <h5 className="modal-title">{selectedProduct ? "Edit Product" : "Add Product"}</h5>
+                  <h5 className="modal-title">
+                    {selectedProduct ? "Edit Product" : "Add Product"}
+                  </h5>
                   <button
                     type="button"
                     className="btn-close"
@@ -872,12 +1066,28 @@ const Admin = () => {
                 <div className="modal-body">
                   {/* Product add/edit form as in your code */}
                   <div className="mb-3">
+                    <label className="form-label">url</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={newProduct.imgurl}
+                      onChange={(e) =>
+                        setNewProduct({
+                          ...newProduct,
+                          imgurl: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="mb-3">
                     <label className="form-label">Name</label>
                     <input
                       type="text"
                       className="form-control"
                       value={newProduct.name}
-                      onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+                      onChange={(e) =>
+                        setNewProduct({ ...newProduct, name: e.target.value })
+                      }
                     />
                   </div>
                   <div className="mb-3">
@@ -885,7 +1095,12 @@ const Admin = () => {
                     <textarea
                       className="form-control"
                       value={newProduct.description}
-                      onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+                      onChange={(e) =>
+                        setNewProduct({
+                          ...newProduct,
+                          description: e.target.value,
+                        })
+                      }
                     ></textarea>
                   </div>
                   <div className="mb-3">
@@ -895,7 +1110,10 @@ const Admin = () => {
                       className="form-control"
                       value={newProduct.price}
                       onChange={(e) =>
-                        setNewProduct({ ...newProduct, price: parseFloat(e.target.value) || 0 })
+                        setNewProduct({
+                          ...newProduct,
+                          price: parseFloat(e.target.value) || 0,
+                        })
                       }
                     />
                   </div>
@@ -906,7 +1124,10 @@ const Admin = () => {
                       className="form-control"
                       value={newProduct.quantity}
                       onChange={(e) =>
-                        setNewProduct({ ...newProduct, quantity: parseInt(e.target.value) || 0 })
+                        setNewProduct({
+                          ...newProduct,
+                          quantity: parseInt(e.target.value) || 0,
+                        })
                       }
                     />
                   </div>
@@ -916,7 +1137,12 @@ const Admin = () => {
                       type="text"
                       className="form-control"
                       value={newProduct.company}
-                      onChange={(e) => setNewProduct({ ...newProduct, company: e.target.value })}
+                      onChange={(e) =>
+                        setNewProduct({
+                          ...newProduct,
+                          company: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div className="mb-3">
@@ -925,7 +1151,9 @@ const Admin = () => {
                       type="text"
                       className="form-control"
                       value={newProduct.type}
-                      onChange={(e) => setNewProduct({ ...newProduct, type: e.target.value })}
+                      onChange={(e) =>
+                        setNewProduct({ ...newProduct, type: e.target.value })
+                      }
                     />
                   </div>
                   <div className="mb-3 form-check">
@@ -933,7 +1161,12 @@ const Admin = () => {
                       type="checkbox"
                       className="form-check-input"
                       checked={newProduct.banned}
-                      onChange={(e) => setNewProduct({ ...newProduct, banned: e.target.checked })}
+                      onChange={(e) =>
+                        setNewProduct({
+                          ...newProduct,
+                          banned: e.target.checked,
+                        })
+                      }
                       id="bannedCheck"
                     />
                     <label htmlFor="bannedCheck" className="form-check-label">
@@ -950,7 +1183,10 @@ const Admin = () => {
                       max="5"
                       value={newProduct.rating}
                       onChange={(e) =>
-                        setNewProduct({ ...newProduct, rating: parseFloat(e.target.value) || 0 })
+                        setNewProduct({
+                          ...newProduct,
+                          rating: parseFloat(e.target.value) || 0,
+                        })
                       }
                     />
                   </div>
@@ -1028,7 +1264,9 @@ const Admin = () => {
                               </button>
                               <button
                                 className="btn admin-btn-danger btn-sm"
-                                onClick={() => handleDeleteProductById(product.id)}
+                                onClick={() =>
+                                  handleDeleteProductById(product.id)
+                                }
                               >
                                 Delete
                               </button>
@@ -1059,6 +1297,4 @@ const Admin = () => {
   );
 };
 
-
 export default Admin;
-
