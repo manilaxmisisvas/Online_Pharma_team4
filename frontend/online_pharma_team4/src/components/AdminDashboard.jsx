@@ -11,7 +11,6 @@ import {
   getAllDrugs,
   addDrug,
   updateDrug,
-  updateAdminProfile,
   deleteDrugById,
 } from "../services/AdminService";
 import "../styles/Admin.css";
@@ -63,7 +62,7 @@ const Admin = () => {
   const [productError, setProductError] = React.useState(null);
   const [productSuccessMessage, setProductSuccessMessage] =
     React.useState(null);
-
+  const [image, setImage] = useState(null);
   // Check token presence on mount
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -72,25 +71,6 @@ const Admin = () => {
   }, [navigate]);
 
   // --- Profile ---
-  // For edit mode
-  const [isEditing, setIsEditing] = useState(false);
-  const [editProfile, setEditProfile] = useState({});
-
-  const handleUpdateProfile = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    try {
-      const res = await updateAdminProfile(editProfile);
-      setProfile(res.data); // update state with new profile
-      setIsEditing(false); // close edit mode
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to update profile");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleLogout = () => {
     localStorage.clear();
@@ -295,23 +275,49 @@ const Admin = () => {
       setProductError("Product name is required.");
       return;
     }
+
     try {
       if (selectedProduct) {
+        // Update existing product
         await updateDrug(selectedProduct.id, newProduct);
         setProductSuccessMessage("Product updated successfully!");
       } else {
-        await addDrug(newProduct);
+        // Upload new product with image
+        const data = new FormData();
+        data.append("file", image);
+        data.append("upload_preset", "unsigneduploads");
+
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/dbepmgxa6/image/upload",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+
+        const cloudData = await res.json();
+
+        const updatedProduct = { ...newProduct, imgurl: cloudData.secure_url };
+        setNewProduct(updatedProduct);
+
+        await uploadToDatabase(updatedProduct); // ensure DB upload finished
         setProductSuccessMessage("Product added successfully!");
       }
+
       setProductError(null);
       setIsProductModalOpen(false);
       fetchProducts();
+
       setTimeout(() => setProductSuccessMessage(null), 3000);
     } catch (err) {
       setProductError(
         err.response?.data?.message || err.message || "Failed to save product"
       );
     }
+  };
+
+  const uploadToDatabase = async (product) => {
+    await addDrug(product);
   };
 
   const handleDeleteProductById = async (id) => {
@@ -646,12 +652,12 @@ const Admin = () => {
           </div>
         </div>
 
-        {/* profile Section  */}
+        {/* Profile Section */}
         <div id="profile-section" className="row mt-5">
-          <div className="col-md-4 mx-auto">
+          <div className="col-md-6 mx-auto">
             <div className="card admin-card border-0 shadow-lg">
               <div className="card-header admin-cardheader-profile d-flex align-items-center">
-                <i className="bi bi-box-arrow-right me-2 fs-4" />
+                <i className="bi bi-person-circle me-2 fs-4" />
                 <span className="fs-5">My Profile</span>
               </div>
               <div className="card-body text-center">
@@ -665,151 +671,49 @@ const Admin = () => {
                     ? "Loading..."
                     : isProfileVisible
                     ? "Hide Profile"
-                    : "My Profile"}
+                    : "View Profile"}
                 </button>
+
+                {error && <p className="text-danger mt-3">{error}</p>}
 
                 {isProfileVisible && profile && (
                   <div ref={profileRef} className="mt-4 text-start">
-                    {isEditing ? (
-                      <form onSubmit={handleUpdateProfile}>
-                        <div className="mb-2">
-                          <label>
-                            <strong>Name:</strong>
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={editProfile.name || ""}
-                            onChange={(e) =>
-                              setEditProfile({
-                                ...editProfile,
-                                name: e.target.value,
-                              })
-                            }
-                            required
-                          />
-                        </div>
-
-                        <div className="mb-2">
-                          <label>
-                            <strong>Email:</strong>
-                          </label>
-                          <input
-                            type="email"
-                            className="form-control"
-                            value={editProfile.email || ""}
-                            onChange={(e) =>
-                              setEditProfile({
-                                ...editProfile,
-                                email: e.target.value,
-                              })
-                            }
-                            required
-                          />
-                        </div>
-
-                        <div className="mb-2">
-                          <label>
-                            <strong>Mobile:</strong>
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={editProfile.mobile || ""}
-                            onChange={(e) =>
-                              setEditProfile({
-                                ...editProfile,
-                                mobile: e.target.value,
-                              })
-                            }
-                          />
-                        </div>
-
-                        <div className="mb-2">
-                          <label>
-                            <strong>Date of Birth:</strong>
-                          </label>
-                          <input
-                            type="date"
-                            className="form-control"
-                            value={editProfile.dob || ""}
-                            onChange={(e) =>
-                              setEditProfile({
-                                ...editProfile,
-                                dob: e.target.value,
-                              })
-                            }
-                          />
-                        </div>
-
-                        <div className="mb-2">
-                          <label>
-                            <strong>Gender:</strong>
-                          </label>
-                          <select
-                            className="form-control"
-                            value={editProfile.gender || ""}
-                            onChange={(e) =>
-                              setEditProfile({
-                                ...editProfile,
-                                gender: e.target.value,
-                              })
-                            }
-                          >
-                            <option value="">Select</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                          </select>
-                        </div>
-
-                        <button type="submit" className="btn btn-success mt-3">
-                          Save Changes
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-secondary mt-3 ms-2"
-                          onClick={() => setIsEditing(false)}
-                        >
-                          Cancel
-                        </button>
-                      </form>
-                    ) : (
+                    <p>
+                      <strong>Name:</strong> {profile.name}
+                    </p>
+                    <p>
+                      <strong>Email:</strong> {profile.email}
+                    </p>
+                    <p>
+                      <strong>Role:</strong> {profile.role}
+                    </p>
+                    <p>
+                      <strong>Mobile:</strong> {profile.mobile}
+                    </p>
+                    <p>
+                      <strong>Date of Birth:</strong>{" "}
+                      {profile.dob
+                        ? new Date(profile.dob).toLocaleDateString()
+                        : "N/A"}
+                    </p>
+                    <p>
+                      <strong>Gender:</strong> {profile.gender || "N/A"}
+                    </p>
+                    <p>
+                      <strong>Status:</strong>{" "}
+                      {profile.disabled ? "Disabled" : "Active"}
+                    </p>
+                    {profile.address && (
                       <>
                         <p>
-                          <strong>Name:</strong> {profile.name}
+                          <strong>Address:</strong>
                         </p>
                         <p>
-                          <strong>Email:</strong> {profile.email}
+                          {profile.address.street || ""}{" "}
+                          {profile.address.city || ""},{" "}
+                          {profile.address.state || ""}{" "}
+                          {profile.address.zipcode || ""}
                         </p>
-                        <p>
-                          <strong>Role:</strong> {profile.role}
-                        </p>
-                        <p>
-                          <strong>Mobile:</strong> {profile.mobile}
-                        </p>
-                        <p>
-                          <strong>Date of Birth:</strong>{" "}
-                          {profile.dob
-                            ? new Date(profile.dob).toLocaleDateString()
-                            : "N/A"}
-                        </p>
-                        <p>
-                          <strong>Gender:</strong> {profile.gender || "N/A"}
-                        </p>
-                        <p>
-                          <strong>Status:</strong>{" "}
-                          {profile.disabled ? "Disabled" : "Active"}
-                        </p>
-
-                        <button
-                          className="btn btn-warning mt-3"
-                          onClick={() => {
-                            setEditProfile(profile);
-                            setIsEditing(true);
-                          }}
-                        >
-                          Edit Profile
-                        </button>
                       </>
                     )}
                   </div>
@@ -1066,17 +970,12 @@ const Admin = () => {
                 <div className="modal-body">
                   {/* Product add/edit form as in your code */}
                   <div className="mb-3">
-                    <label className="form-label">url</label>
+                    <label className="form-label">Image</label>
                     <input
-                      type="text"
+                      type="file"
                       className="form-control"
-                      value={newProduct.imgurl}
-                      onChange={(e) =>
-                        setNewProduct({
-                          ...newProduct,
-                          imgurl: e.target.value,
-                        })
-                      }
+                      // value={newProduct.imgurl}
+                      onChange={(e) => setImage(e.target.files[0])}
                     />
                   </div>
                   <div className="mb-3">
