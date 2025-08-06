@@ -30,8 +30,7 @@ public class Drug {
     @Column(nullable = false)
     private boolean banned;
 
-    @Column(length = 10000)
-    private String imgurl;
+ 
     // Getters and setters
     @Column(length=1000)
     private String imgurl;

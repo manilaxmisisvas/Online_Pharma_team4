@@ -125,27 +125,8 @@ public class AdminController {
         }
     }
 
-<<<<<<< HEAD
-//    // http://localhost:8080/api/admin/drugs/{id}
-//    @PutMapping("/drugs/{id}")
-//    public ResponseEntity<Drug> updateDrug(@PathVariable Long id, @RequestBody Drug updatedDrug) {
-//        Drug drug = drugDao.updateDrug(id, updatedDrug);
-//        if (drug != null) {
-//            return ResponseEntity.ok(drug);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-    
-    
-    
-    
- // http://localhost:8080/api/admin/profile
-    @PutMapping("/profile")
-=======
 
  @PutMapping("/profile")
->>>>>>> d9bcd44153a7c3835f030563a8255d0107dd6d08
     public ResponseEntity<User> updateAdminProfile(@RequestBody User updatedData) {
         // Get the email from localStorage (frontend sends it in request body or Authorization token)
         String email = updatedData.getEmail();
@@ -165,14 +146,4 @@ public class AdminController {
         }
     }
 
-<<<<<<< HEAD
-    
-    
-    
-    
-    
-    
-    
-=======
->>>>>>> d9bcd44153a7c3835f030563a8255d0107dd6d08
 }
