@@ -15,7 +15,7 @@ const Register = () => {
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
-  const [postalCode, setPostalCode] = useState("");
+  const [zipcode, setZipcode] = useState("");
   const [country, setCountry] = useState("");
 
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const Register = () => {
     // Basic client side validation
     if (
       !username || !email || !password || !dob || !gender || !mobile ||
-      !street || !city || !state || !postalCode || !country
+      !street || !city || !state || !zipcode || !country
     ) {
       alert("Please fill all required fields.");
       return;
@@ -36,7 +36,7 @@ const Register = () => {
       street,
       city,
       state,
-      postalCode,
+      zipcode,
       country,
     };
 
@@ -71,7 +71,7 @@ const Register = () => {
         setStreet("");
         setCity("");
         setState("");
-        setPostalCode("");
+        setZipcode("");
         setCountry("");
         navigate("/login");
       } else {
@@ -197,12 +197,12 @@ const Register = () => {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="postalCode">Postal Code</label>
+              <label htmlFor="zipcode">zipcode</label>
               <input type="text"
-                id="postalCode"
+                id="zipcode"
                 className="form-control"
-                value={postalCode}
-                onChange={e => setPostalCode(e.target.value)}
+                value={zipcode}
+                onChange={e => setZipcode(e.target.value)}
                 required
               />
             </div>
@@ -222,7 +222,7 @@ const Register = () => {
               <label htmlFor="role">Role</label>
               <select id="role"
                 className="form-select"
-                value={role}
+                value={role}P
                 onChange={e => setRole(e.target.value)}
                 required>
                 <option value="USER">User</option>

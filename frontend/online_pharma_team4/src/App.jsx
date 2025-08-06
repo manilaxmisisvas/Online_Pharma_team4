@@ -11,6 +11,7 @@ import PaymentPage from "./components/PaymentPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { CartProvider } from "./components/cartcontext.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
+import UserProfile from "./components/UserProfile.jsx";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/oauth-success" element={<OAuthSuccess />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </BrowserRouter>
     </CartProvider>
