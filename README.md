@@ -227,7 +227,7 @@ You can test backend APIs using Postman.
 
 ### Drug Order Table (Database)
 
-![Drug_Order DB](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754478293/miu08ocfuwfgwfhcerux.png)
+![Drug_Order DB](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754479778/g7ht2penbqjdp3tyfbn4.png)
 
 ---
 
