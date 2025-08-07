@@ -210,7 +210,11 @@ You can test backend APIs using Postman.
 
 ### View Products
 
-![View Products](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754391253/ilpmkyf0masoaeuyxkjf.png)
+![View Products](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754557469/nu63qvhgpbdmiuy4g1w0.png)
+
+### View Users
+
+![View Users](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754557582/ieoetts12bigth5sb3qq.png)
 
 ### My Cart
 
