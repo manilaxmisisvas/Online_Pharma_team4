@@ -192,7 +192,7 @@ You can test backend APIs using Postman.
 
 ### User Dashboard
 
-![User Dashboard](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754477474/es82xrx1w5nqbetp20lo.png)
+![User Dashboard](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754539745/csohrkwqqzdqflyomyon.png)
 
 ### User Profile
 ![User Profile](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754477599/ikmjma5bvmhjqnhymfny.png)
@@ -203,6 +203,10 @@ You can test backend APIs using Postman.
 ### Admin Dashboard
 
 ![Admin Dashboard](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754390866/b3nnxqtbsfherzoxazlt.png)
+
+### Add Product 
+
+![Add Product](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754539612/al8y5ijl15h0b4wm3x0u.png)
 
 ### View Products
 
