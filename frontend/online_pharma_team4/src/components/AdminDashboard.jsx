@@ -906,26 +906,28 @@ const Admin = () => {
                             </td>
                             <td>{user.disabled ? "Yes" : "No"}</td>
                             <td>
-                              <button
-                                className="btn admin-btn-warning btn-sm me-2"
-                                onClick={() => openEditUserModal(user)}
-                              >
-                                Edit
-                              </button>
-                              <button
-                                className="btn admin-btn-danger btn-sm"
-                                onClick={() => handleDeleteUser(user.id)}
-                              >
-                                Delete
-                              </button>
-                              <button
-                                className="btn admin-btn-secondary btn-sm ms-2"
-                                onClick={() =>
-                                  handleDisableUser(user.id, !user.disabled)
-                                }
-                              >
-                                {user.disabled ? "Enable" : "Disable"}
-                              </button>
+                              <div className="d-flex gap-2 flex-wrap">
+                                <button
+                                  className="btn admin-btn-warning btn-sm"
+                                  onClick={() => openEditUserModal(user)}
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  className="btn admin-btn-danger btn-sm"
+                                  onClick={() => handleDeleteUser(user.id)}
+                                >
+                                  Delete
+                                </button>
+                                <button
+                                  className="btn admin-btn-secondary btn-sm"
+                                  onClick={() =>
+                                    handleDisableUser(user.id, !user.disabled)
+                                  }
+                                >
+                                  {user.disabled ? "Enable" : "Disable"}
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         ))}
@@ -1155,20 +1157,22 @@ const Admin = () => {
                             <td>{product.banned ? "Yes" : "No"}</td>
                             <td>{product.rating || 0.0}</td>
                             <td>
-                              <button
-                                className="btn admin-btn-warning btn-sm me-2"
-                                onClick={() => openEditProductModal(product)}
-                              >
-                                Edit
-                              </button>
-                              <button
-                                className="btn admin-btn-danger btn-sm"
-                                onClick={() =>
-                                  handleDeleteProductById(product.id)
-                                }
-                              >
-                                Delete
-                              </button>
+                              <div className="d-flex gap-2">
+                                <button
+                                  className="btn admin-btn-warning btn-sm"
+                                  onClick={() => openEditProductModal(product)}
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  className="btn admin-btn-danger btn-sm"
+                                  onClick={() =>
+                                    handleDeleteProductById(product.id)
+                                  }
+                                >
+                                  Delete
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         ))}
