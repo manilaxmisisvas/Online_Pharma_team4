@@ -145,7 +145,7 @@ You can test backend APIs using Postman.
 ### 🔐 Authentication & Authorization
 
 * User login/logout
-* Admin approval before orders
+* Admin approvals
 
 ### 💊 Drug Management (Admin)
 
