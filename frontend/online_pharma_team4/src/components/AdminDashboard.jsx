@@ -304,9 +304,10 @@ const Admin = () => {
         const data = new FormData();
         data.append("file", image);
         data.append("upload_preset", "your_preset");
-
+        data.append('cloudinary','cloudinary_User_ID');
+        
         const res = await fetch(
-          "https://api.cloudinary.com/v1_1/your_id/image/upload",
+          "https://api.cloudinary.com/v1_1/cloudinary_User_ID/image/upload",
           {
             method: "POST",
             body: data,
