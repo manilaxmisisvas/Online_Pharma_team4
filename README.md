@@ -217,6 +217,10 @@ You can test backend APIs using Postman.
 
 ![My Cart](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754390962/hcbkirgs2g20pu0zpuzq.png)
 
+### Payment (Razorpay)
+
+![Payment](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754755928/rgb46qpwdzcfbw8qz39x.png)
+
 ### User Table (Database)
 
 ![User DB](https://res.cloudinary.com/dlbdbhxet/image/upload/v1754391168/q2zeahvhj6bwneadjnab.jpg)
